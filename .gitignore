@@ -1,0 +1,7 @@
+.venv
+.idea
+.ipynb_checkpoints
+stocks
+env.py
+*.pth
+Stock_Live.ipynb
