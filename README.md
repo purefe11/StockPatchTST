@@ -196,7 +196,7 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 The full end-to-end workflow is implemented in the following notebook:
 
-[`StockPilot_TimeSeriesTransformer_Ranking.ipynb`](./StockPilot_TimeSeriesTransformer_Ranking.ipynb)
+[Stock_TimeSeriesTransformer_Ranking.ipynb](./Stock_TimeSeriesTransformer_Ranking.ipynb)
 
 This includes:
 - Raw data retrieval
