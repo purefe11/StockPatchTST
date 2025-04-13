@@ -14,7 +14,7 @@
 - [Case Study](#-case-study-specific-stocks)
 - [Environment](#-environment)
 - [Experiment Notebook](#-experiment-notebook)
-- [License](#-license--acknowledgements)
+- [License & Acknowledgements](#-license--acknowledgements)
 
 ## Overview of Deep Learning Model Evolution
 A chronological overview of model improvements, from LSTM to Transformer variants.
