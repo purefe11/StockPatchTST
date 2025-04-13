@@ -5,7 +5,7 @@ PatchTST 기반 주가 랭킹 모델에 사용된 주요 기술 지표 및 캔�
 ---
 
 ## 🕯️ 1. 캔들 차트 관련 피처
-<img src=https://github.com/user-attachments/assets/0e735b9f-666b-4381-aa5d-b77e570b9307 width=600/>
+<img src=https://github.com/user-attachments/assets/5e6540fc-3ce1-4a93-8b66-e1a2dca4c559 width=600/>
 
 ### ✅ `open_to_close`
 - 시가 대비 종가의 변화율<br>
