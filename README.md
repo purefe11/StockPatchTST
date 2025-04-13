@@ -220,7 +220,6 @@ See the [LICENSE](./LICENSE) file for details.
 
 This work is inspired by [PatchTST](https://github.com/yuqinie98/PatchTST).  
 It was developed and tested on KRX daily stock data from 2020 to 2025.
-
 KRX data was primarily retrieved using the [pykrx](https://github.com/sharebook-kr/pykrx) library.  
 Industry classification codes were retrieved via the Open API from [Korea Investment & Securities](https://github.com/koreainvestment/open-trading-api).
 
