@@ -26,6 +26,10 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 > Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
 > This not only compresses temporal information but also abstracts each patch into a meaningful representation.
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
+
+<!-- See TRANSFORMER.md for an intuitive and beginner-friendly explanation of the encoder block. -->
+👉 [Understanding the Transformer Encoder (for beginners)](./TRANSFORMER.md)
+
 ---
 
 ## 🧠 Input Features
