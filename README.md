@@ -24,27 +24,25 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ![model_history](https://github.com/user-attachments/assets/3723d215-bd04-4fae-94a2-d0b3c8534d82)
 
 ## Transformer-Based Ranking Model for Stock Selection
+📘 See [TRANSFORMER.md](./TRANSFORMER.md) to learn how the encoder works inside
+
 ![stock_patch_tst](https://github.com/user-attachments/assets/a4741d7d-2ef6-4a17-8089-d1704ea6fc35)
 > Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
 > This not only compresses temporal information but also abstracts each patch into a meaningful representation.
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
 
-<!-- See TRANSFORMER.md for an intuitive and beginner-friendly explanation of the encoder block. -->
-👉 Curious about how the Transformer encoder works? see [TRANSFORMER.md](./TRANSFORMER.md)
-
 ---
 
 ## 🧠 Input Features
-The model was trained using a wide range of features including price movement, volatility, volume trends, market indices, and candlestick patterns.  
-Below is the list of major features used for training.
+📘 See [FEATURES_TECHNICAL_INDICATORS.md](./FEATURES_TECHNICAL_INDICATORS.md) for the full list of features and indicator formulas.
+
+The model was trained using a wide range of features including price movement, volatility, volume trends, market indices, and candlestick patterns. Below is the list of major features used for training.
 
 > 💡 **Note on Feature Engineering**  
 > All input features were transformed into **ratio-based values** to enhance generalizability across different price/volume levels.  
 > Instead of applying sliding-window or historical normalization, features were expressed as relative changes (e.g., % gap from moving averages, rate-of-change, ratios).  
 > Long-tail distributions (e.g., volume volatility ratios) were handled via simple log-scaling.  
 > This approach was chosen to keep the feature space interpretable and stable across different stocks and timeframes.
-
-👉 For details on technical indicators and feature formulas, see [FEATURES_TECHNICAL_INDICATORS.md](./FEATURES_TECHNICAL_INDICATORS.md)
 
 ### 🏭 Stock Metadata
 - `industry_id`: Mid-level industry classification code
