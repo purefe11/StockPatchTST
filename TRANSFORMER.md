@@ -67,4 +67,5 @@
 
 - ["Attention is All You Need"](https://arxiv.org/abs/1706.03762)
 - [The Illustrated Transformer by Jay Alammar](https://jalammar.github.io/illustrated-transformer/)
-![transformer_resideual_layer_norm_2](https://github.com/user-attachments/assets/7506baf2-33bb-4d5b-a33f-cd4e2f10bae3)
+
+  ![transformer_resideual_layer_norm_2](https://github.com/user-attachments/assets/7506baf2-33bb-4d5b-a33f-cd4e2f10bae3)
