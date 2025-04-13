@@ -28,7 +28,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
 
 <!-- See TRANSFORMER.md for an intuitive and beginner-friendly explanation of the encoder block. -->
-👉 [Understanding the Transformer Encoder (for beginners)](./TRANSFORMER.md)
+👉 Curious about how the Transformer encoder works? see [TRANSFORMER.md](./TRANSFORMER.md)
 
 ---
 
@@ -42,7 +42,7 @@ Below is the list of major features used for training.
 > Long-tail distributions (e.g., volume volatility ratios) were handled via simple log-scaling.  
 > This approach was chosen to keep the feature space interpretable and stable across different stocks and timeframes.
 
-### 📘 [Feature Definitions & Formulas](./FEATURES_TECHNICAL_INDICATORS.md)
+👉 For details on technical indicators and feature formulas, see [FEATURES_TECHNICAL_INDICATORS.md](./FEATURES_TECHNICAL_INDICATORS.md)
 
 ### 🏭 Stock Metadata
 - `industry_id`: Mid-level industry classification code
