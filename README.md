@@ -28,7 +28,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
 
 <!-- See TRANSFORMER.md for an intuitive and beginner-friendly explanation of the encoder block. -->
-👉 [Understanding the Transformer Encoder (for beginners)](./TRANSFORMER.md)
+👉 [Understanding the Transformer Encoder (for beginners)](docs/TRANSFORMER.md)
 
 ---
 
@@ -42,7 +42,7 @@ Below is the list of major features used for training.
 > Long-tail distributions (e.g., volume volatility ratios) were handled via simple log-scaling.  
 > This approach was chosen to keep the feature space interpretable and stable across different stocks and timeframes.
 
-### 📘 [Feature Definitions & Formulas](./FEATURES_TECHNICAL_INDICATORS.md)
+### 📘 [Feature Definitions & Formulas](docs/FEATURES_TECHNICAL_INDICATORS.md)
 
 ### 🏭 Stock Metadata
 - `industry_id`: Mid-level industry classification code
@@ -147,10 +147,10 @@ Below are the individual distributions of input features used in model training.
 
 For an in-depth explanation of the ranking metric and training objective used in this model, see:
 
-- 📘 [NDCG Explained](./NDCG.md):  
+- 📘 [NDCG Explained](docs/NDCG.md):  
   Understand how Normalized Discounted Cumulative Gain (NDCG) measures ranking quality in stock selection.
 
-- ⚙️ [LambdaRank Loss Guide](./LAMBDA_RANK_LOSS.md):  
+- ⚙️ [LambdaRank Loss Guide](docs/LAMBDA_RANK_LOSS.md):  
   Dive into the pairwise ranking loss function that optimizes NDCG by comparing stock relevance in every batch.
 
 ---
