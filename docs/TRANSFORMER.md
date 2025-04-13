@@ -68,7 +68,7 @@
 
 <br>
 
-# 📘 Transformer 인코더 블록의 수학적 구조 (심화 버전!)
+# 📘 Transformer 인코더 (심화 버전!)
 > ⚠️ 본 섹션에는 아래 출처의 도식 이미지 일부를 인용 또는 재구성하여 사용하였습니다.
 
 - ["Attention is All You Need"](https://arxiv.org/abs/1706.03762)
