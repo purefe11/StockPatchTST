@@ -125,6 +125,10 @@
 📌 핵심 개념:
 - 여러 개의 시선으로 입력을 바라보고, 이들을 종합해 더 풍부한 정보로 변환
 
+📦 [코드 예시: PyTorch `TransformerEncoderLayer`](https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html)
+- 이 레이어는 내부적으로 multi-head attention과 feedforward block을 모두 포함하고 있음
+- 즉, Transformer 인코더 블록 전체 구조를 한 줄로 사용할 수 있음
+
 ---
 
 ### 4. Add & LayerNorm
