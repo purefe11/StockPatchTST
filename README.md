@@ -105,15 +105,12 @@ Below are the individual distributions of input features used in model training.
 - Industry embedding integration (mid-level industry classification)
 - Soft label generation from 5-day future returns
 - LambdaRankLoss for pairwise ranking optimization
-- Top-volume filtering & large-cap only:  
-  Model selects stocks within the top 200 by daily trading volume and market capitalization of at least 500B KRW.
 - Real-time applicability:  
   Designed for inference and trade execution near market close (15:40–16:00), based on the final closing price.
 
 ## 🎯 Target Selection Strategy
 - Top 200 stocks by daily trading volume
 - Market cap ≥ 500B KRW
-- Trades executed at closing auction (15:40–16:00)
 - Excludes limit-up and newly listed stocks
 
 ## ⚙️ Training Setup
