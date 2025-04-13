@@ -1,7 +1,7 @@
-# 🤖 Transformer 내부 구조 (초등학생도 이해할 수 있는 버전!)
+# 🤖 Transformer 내부 구조 (쉬운 버전!)
+### “퍼즐을 보는 똑똑한 로봇: Transformer 쉽게 이해하기”
 <img src=https://github.com/user-attachments/assets/72a1f54d-dfdf-49bf-8328-c2fff4ce4043 width=640/>
 
-"9개의 퍼즐 조각을 함께 보고 미래를 상상하는 똑똑한 로봇"
 > 30일 동안의 주식 데이터를 9개 조각(패치)으로 잘랐다고 했을 때
 > 각 조각은 6일 동안의 주가 흐름을 담고 있다.
 > 이제 Transformer라는 로봇이 등장해서 이 9개의 조각을 가지고 무슨 일이 일어날지 생각해보자.
@@ -97,7 +97,7 @@
 
 ![Attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK%5ET}{\sqrt{d_k}}\right)V)
 
-![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)
+![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)<br>
 
 👉 설명:
 - QK^T: Query와 Key의 내적을 통해 유사도 계산
@@ -181,3 +181,10 @@
 4. 기존 정보와 섞고 정리
 5. FFN으로 추가 처리
 6. 다시 섞고 정리
+
+---
+
+### 📚 추가 참고 자료
+
+- [PyTorch Transformer Tutorial (Official)](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
+- [Transformer Playground (Visualization Tool)](https://transformer-playground.tensorflow.org/)
