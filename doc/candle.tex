@@ -1,0 +1,71 @@
+% https://www.overleaf.com/
+\documentclass[tikz, border=10pt]{standalone}
+\usepackage{kotex}
+\usepackage{fontspec}
+\setmainfont{NanumGothic}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    every node/.style={font=\small},
+    candle/.style={draw=black, line width=0.7pt},
+    red/.style={fill=red!60},
+    blue/.style={fill=blue!60},
+    label/.style={font=\footnotesize}
+]
+
+% 고가/저가 공통 위치
+\def\high  {2.2}
+\def\low   {-2}
+
+% 양봉 (시가 < 종가)
+\def\openBull  {-0.8}
+\def\closeBull {1}
+
+% 음봉 (시가 > 종가)
+\def\openBear  {1}
+\def\closeBear {-0.8}
+
+% 양봉
+\draw[candle, red] (-4,\closeBull) rectangle (-3,\openBull);
+\draw[candle] (-3.5,\high) -- (-3.5,\closeBull);
+\draw[candle] (-3.5,\openBull) -- (-3.5,\low);
+
+% 음봉
+\draw[candle, blue] (3,\openBear) rectangle (4,\closeBear);
+\draw[candle] (3.5,\high) -- (3.5,\openBear);
+\draw[candle] (3.5,\closeBear) -- (3.5,\low);
+
+% 수평선만 먼저 그림
+\foreach \y in {\high, \openBull, \closeBull, \openBear, \closeBear, \low} {
+    \draw[dashed, gray!60] (-6,\y) -- (6,\y);
+}
+
+% 라벨 (왼쪽: 양봉 기준 / 오른쪽: 음봉 기준)
+\node[label] at (-6.4,\high)       {고가};
+\node[label] at (-6.4,\openBull)   {시가 (양봉)};
+\node[label] at (-6.4,\closeBull)  {종가 (양봉)};
+\node[label] at (-6.4,\low)        {저가};
+
+\node[label] at (6.4,\high)        {고가};
+\node[label] at (6.4,\openBear)    {시가 (음봉)};
+\node[label] at (6.4,\closeBear)   {종가 (음봉)};
+\node[label] at (6.4,\low)         {저가};
+
+% 구성 설명
+\node at (0,1.6)    {윗꼬리};
+\node at (0,0.1)    {몸통};
+\node at (0,-1.4)   {아랫꼬리};
+
+% 하단 텍스트
+\node at (-3.5,-2.5) {양봉};
+\node at (3.5,-2.5)  {음봉};
+
+% 제목
+%\node[font=\large] at (0,2.8) {캔들 차트};
+
+\end{tikzpicture}
+
+\end{document}
