@@ -5,6 +5,8 @@
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
 ## 📚 Table of Contents
+- [Overview](#overview-of-deep-learning-model-evolution)
+- [Model](#transformer-based-ranking-model-for-stock-selection)
 - [Input Features](#-input-features)
 - [Key Features](#-key-features)
 - [Target Selection Strategy](#-target-selection-strategy)
