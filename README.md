@@ -18,6 +18,7 @@
 
 ## Overview of Deep Learning Model Evolution
 A chronological overview of model improvements, from LSTM to Transformer variants.
+
 ![model_history](https://github.com/user-attachments/assets/7795238a-b8e8-40f5-90c7-034a854555b3)
 
 ## Transformer-Based Ranking Model for Stock Selection
@@ -73,6 +74,7 @@ Below is the list of major features used for training.
 
 ## Feature Heatmap
 The following heatmap shows pairwise correlations between selected input features.
+
 ![heatmap](https://github.com/user-attachments/assets/12db48fa-fa1c-4729-a20b-3d14c0d92691)
 
 ## Distribution per Feature
@@ -194,8 +196,7 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 ## 🧪 Experiment Notebook
 
-The full end-to-end workflow is implemented in the following notebook:
-
+The full end-to-end workflow is implemented in the following notebook:<br>
 [Stock_TimeSeriesTransformer_Ranking.ipynb](./Stock_TimeSeriesTransformer_Ranking.ipynb)
 
 This includes:
