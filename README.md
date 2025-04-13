@@ -145,10 +145,10 @@ Below are the individual distributions of input features used in model training.
 
 For an in-depth explanation of the ranking metric and training objective used in this model, see:
 
-- 📘 [NDCG Explained](./NDCG.md):  
+- 📘 [NDCG Explained](docs/NDCG.md):  
   Understand how Normalized Discounted Cumulative Gain (NDCG) measures ranking quality in stock selection.
 
-- ⚙️ [LambdaRank Loss Guide](./LAMBDA_RANK_LOSS.md):  
+- ⚙️ [LambdaRank Loss Guide](docs/LAMBDA_RANK_LOSS.md):  
   Dive into the pairwise ranking loss function that optimizes NDCG by comparing stock relevance in every batch.
 
 ---
