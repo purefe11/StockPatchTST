@@ -1,4 +1,4 @@
-![StockPatchTST_banner_proportional_1024x400](https://github.com/user-attachments/assets/9470ab1a-42c3-4ee7-9961-08d627b9a0d7)
+![StockPatchTST_banner_proportional_1024x400](https://github.com/user-attachments/assets/89bad72a-5a85-4883-9666-171765832b15)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![PyTorch](https://img.shields.io/badge/pytorch-2.6.0-%23ee4c2c)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -19,10 +19,16 @@
 ## Overview of Deep Learning Model Evolution
 A chronological overview of model improvements, from LSTM to Transformer variants.
 
-![model_history](https://github.com/user-attachments/assets/7795238a-b8e8-40f5-90c7-034a854555b3)
+![model_history](https://github.com/user-attachments/assets/3723d215-bd04-4fae-94a2-d0b3c8534d82)
 
 ## Transformer-Based Ranking Model for Stock Selection
-![stock_patch_tst](https://github.com/user-attachments/assets/11c5425c-683d-4d3a-bc50-397ee36b5aed)
+![stock_patch_tst](https://github.com/user-attachments/assets/a4741d7d-2ef6-4a17-8089-d1704ea6fc35)
+> Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
+> This not only compresses temporal information but also abstracts each patch into a meaningful representation.
+> The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
+
+<!-- See TRANSFORMER.md for an intuitive and beginner-friendly explanation of the encoder block. -->
+👉 [Understanding the Transformer Encoder (for beginners)](./TRANSFORMER.md)
 
 ---
 
@@ -75,23 +81,24 @@ Below is the list of major features used for training.
 ## Feature Heatmap
 The following heatmap shows pairwise correlations between selected input features.
 
-![heatmap](https://github.com/user-attachments/assets/12db48fa-fa1c-4729-a20b-3d14c0d92691)
+![heatmap](https://github.com/user-attachments/assets/79f026a0-f4db-4817-a1a5-4356a8556c89)
+
 
 ## Distribution per Feature
 Below are the individual distributions of input features used in model training.
 |  |  |  |  |
 |--|--|--|--|
-![is_kospi](https://github.com/user-attachments/assets/f8dfb31b-f203-46d6-ae0a-703c11ea94a5) | ![close_rate](https://github.com/user-attachments/assets/858dcfe0-8c8f-4c24-bbe0-bdf9dc874a7d) | ![vwma5_gap](https://github.com/user-attachments/assets/5301b2af-7a0d-4b4f-9907-a34473b8fd96) | ![vwma20_gap](https://github.com/user-attachments/assets/895bfe69-8e3c-4a92-b901-69813c05da7e)
-![vwma_bb_upper_ratio](https://github.com/user-attachments/assets/a22070ec-7033-4008-8b66-3d8451649060) | ![vwma_bb_lower_ratio](https://github.com/user-attachments/assets/c5d52757-7453-4070-8cca-68788b44d835) | ![vwma_bb_width](https://github.com/user-attachments/assets/bbf9711b-55f6-4b42-83e6-35efcc942219) | ![kospi_vwma5_gap](https://github.com/user-attachments/assets/41fe3219-08dd-4a7b-96e9-6bc58fd78e13)
-![kospi_vwma20_gap](https://github.com/user-attachments/assets/718cf0a5-41aa-4e41-823f-9ca9814194a0) | ![kosdaq_vwma5_gap](https://github.com/user-attachments/assets/b8d05399-099d-4a44-bfbf-8ce51a36cb35) | ![kosdaq_vwma20_gap](https://github.com/user-attachments/assets/5470bc29-17ac-4f53-b0c2-415f190828bf) | ![open_to_close](https://github.com/user-attachments/assets/b68bda2c-8e14-4488-a013-389dcb4c76f8)
-![high_to_low](https://github.com/user-attachments/assets/33ba1fe3-0bd8-47ea-86d9-a32843498fce) | ![rsi](https://github.com/user-attachments/assets/71170548-a293-4352-8439-5809e3898b2e) | ![macd_ratio](https://github.com/user-attachments/assets/7f98f4e1-b7cb-4fcd-865d-101af5df61a7) | ![macd_signal_ratio](https://github.com/user-attachments/assets/31edb281-2587-4755-9bf3-f79401f54f20)
-![macd_golden_cross](https://github.com/user-attachments/assets/70b6fa35-23f2-4308-9027-29724094c150) | ![macd_dead_cross](https://github.com/user-attachments/assets/2c189d3f-65da-4d26-b5c0-73da160c3afb) | ![atr_ratio](https://github.com/user-attachments/assets/0004fe80-d61b-48b8-bd72-a4c03c7f7ff9) | ![kospi_close_rate](https://github.com/user-attachments/assets/994a6c5d-96a5-43e9-a898-0b77c44ea381)
-![kosdaq_close_rate](https://github.com/user-attachments/assets/04b527f5-eb55-4408-8754-56c1302f9917) | ![sp500f_close_rate](https://github.com/user-attachments/assets/2c55e0e0-efc0-4ed6-901d-f253ece8d84a) | ![sp500f_ma5_gap](https://github.com/user-attachments/assets/2218a12b-ec33-4bed-897e-0ce6a65fe7f2) | ![sp500f_ma20_gap](https://github.com/user-attachments/assets/f47861ad-1205-4895-9e96-870a8656b796)
-![nasdaq100f_close_rate](https://github.com/user-attachments/assets/62cabd43-a2a1-4315-924b-30c359ba9b6d) | ![nasdaq100f_ma5_gap](https://github.com/user-attachments/assets/27665347-f9f0-40e4-8f22-b55163c374f3) | ![nasdaq100f_ma20_gap](https://github.com/user-attachments/assets/941c639e-15a7-4e8c-aed2-6e74b4100ae9) | ![vix_close_rate](https://github.com/user-attachments/assets/13b9c112-b88e-403b-a3c2-1b547cd86834)
-![sp500v_close_rate](https://github.com/user-attachments/assets/10681a42-474c-4e9b-836b-0ca257779662) | ![trading_volume_volatility_ratio](https://github.com/user-attachments/assets/e7a349ce-7645-45f8-96a0-f9fd6ffd3e04) | ![trading_change](https://github.com/user-attachments/assets/5257edc2-fd0e-46a2-96af-df1218d1c79b) | ![trading_rolling_change](https://github.com/user-attachments/assets/d5aba883-5db4-4aae-a3e3-51e2aae869b4)
-![foreign_rate](https://github.com/user-attachments/assets/005c3db4-a186-49c7-a043-068d0739362d) | ![institution_rate](https://github.com/user-attachments/assets/78cb107f-2feb-4c5e-9219-5315dfdcb5cf) | ![individual_rate](https://github.com/user-attachments/assets/2ea09e43-c2a2-4cd8-9bc8-9323f23876df) | ![foreign_net_buy_days](https://github.com/user-attachments/assets/7076214f-f9f9-462b-85e2-34e009f6e3a5)
-![institution_net_buy_days](https://github.com/user-attachments/assets/f1bc7213-5047-4dc0-b754-627002236057) | ![candle_upper_tail_ratio](https://github.com/user-attachments/assets/6a747311-55b2-46af-a470-8a24e1879b86) | ![candle_lower_tail_ratio](https://github.com/user-attachments/assets/1c6acc0a-6220-47ee-954a-506b51c21fc6) | ![candle_body_ratio](https://github.com/user-attachments/assets/9e4196ae-6070-428a-aae1-60887fccab02)
-![candle_sign](https://github.com/user-attachments/assets/514102a9-6dbf-4346-946c-4af1f30481c1) |  |  |  
+| ![is_kospi](https://github.com/user-attachments/assets/792e12c2-18a5-4510-a2b4-3bc625395e2a) | ![close_rate](https://github.com/user-attachments/assets/33ffa740-deb6-402b-bff1-7987fcc633e4) | ![vwma5_gap](https://github.com/user-attachments/assets/4f7337dd-8ea2-4ccc-b29f-bfdb3380742e) | ![vwma20_gap](https://github.com/user-attachments/assets/156dd8c7-4285-487c-9a0d-21b98c93c906) | 
+| ![vwma_bb_upper_ratio](https://github.com/user-attachments/assets/f5f9837d-a47e-49f0-8c75-cc1cde26fe46) | ![vwma_bb_lower_ratio](https://github.com/user-attachments/assets/a84162a2-b220-41d0-ac66-c33b0dc5c7e8) | ![vwma_bb_width](https://github.com/user-attachments/assets/af0529c2-769c-4144-9e8c-77e15075a88f) | ![kospi_vwma5_gap](https://github.com/user-attachments/assets/91c21f1d-aced-4f83-897d-eea6ba8b112b) | 
+| ![kospi_vwma20_gap](https://github.com/user-attachments/assets/aa361acc-43cf-460d-9746-6b0b0ae37dd7) | ![kosdaq_vwma5_gap](https://github.com/user-attachments/assets/e0492513-b559-4252-bf33-cb0a90e85ad2) | ![kosdaq_vwma20_gap](https://github.com/user-attachments/assets/a0b89e95-c223-492e-8e57-484729e7d9a3) | ![open_to_close](https://github.com/user-attachments/assets/d51f6627-4954-4819-adbd-26049ae3e3b6) | 
+| ![high_to_low](https://github.com/user-attachments/assets/0c9227c6-382d-4313-bc93-ea48f7ade250) | ![rsi](https://github.com/user-attachments/assets/cf91a673-10a3-445c-8e42-1e1f4667dd34) | ![macd_ratio](https://github.com/user-attachments/assets/b412ee5f-eac5-40c0-b1ad-0e6207528bbf) | ![macd_signal_ratio](https://github.com/user-attachments/assets/42141dca-b4c7-4a36-8e4d-32882cfaa7a2) | 
+| ![macd_golden_cross](https://github.com/user-attachments/assets/7b9e0df4-e4ed-42a6-88a1-9e35d3271023) | ![macd_dead_cross](https://github.com/user-attachments/assets/f3645df7-eae2-4c0d-a831-3409d4e8b74e) | ![atr_ratio](https://github.com/user-attachments/assets/bc942118-0526-4bf5-bba0-a9bc776eded5) | ![kospi_close_rate](https://github.com/user-attachments/assets/1ed5cebd-60b2-4a09-8aeb-33cc1f125dec) | 
+| ![kosdaq_close_rate](https://github.com/user-attachments/assets/8a06c2b9-f9b4-43fc-ab38-c17533253197) | ![sp500f_close_rate](https://github.com/user-attachments/assets/e3f0791c-80e7-43ce-8266-8c6dfdbce076) | ![sp500f_ma5_gap](https://github.com/user-attachments/assets/1f2fa8e7-ba72-4c85-8ad8-d387c308c596) | ![sp500f_ma20_gap](https://github.com/user-attachments/assets/835db012-3021-44fb-8926-0c02f09f287a) | 
+| ![nasdaq100f_close_rate](https://github.com/user-attachments/assets/adc0fc5f-5878-4be0-b517-70190e2cfa43) | ![nasdaq100f_ma5_gap](https://github.com/user-attachments/assets/f697aa28-46f1-4bf2-b44b-aeac0106124d) | ![nasdaq100f_ma20_gap](https://github.com/user-attachments/assets/ad64c62d-adc0-45fd-bab6-296b9744dcf9) | ![vix_close_rate](https://github.com/user-attachments/assets/34a69461-9480-4532-a8dc-488609e87e67) | 
+| ![sp500v_close_rate](https://github.com/user-attachments/assets/ffb5ec1a-452f-467e-a8ff-76925d3d92f8) | ![trading_volume_volatility_ratio](https://github.com/user-attachments/assets/532edee0-7dbf-4aab-bb94-c0af60e7eb12) | ![trading_change](https://github.com/user-attachments/assets/0ca135f0-0484-4927-ba1e-0df332a28a6d) | ![trading_rolling_change](https://github.com/user-attachments/assets/d527377c-7eda-439b-b612-b117d3f2e3d0) | 
+| ![foreign_rate](https://github.com/user-attachments/assets/49a70ad6-f283-41ca-98eb-3eee0cd8d52f) | ![institution_rate](https://github.com/user-attachments/assets/7dda2579-2285-4ba8-a85d-13ce2e40aa6a) | ![individual_rate](https://github.com/user-attachments/assets/16a34c2b-214f-4667-8533-becf7ce6f830) | ![foreign_net_buy_days](https://github.com/user-attachments/assets/8298aaa9-8462-4e11-8fd2-16be299067b1) | 
+| ![institution_net_buy_days](https://github.com/user-attachments/assets/3f7b75a6-0fd1-4397-a979-cf04cc846c8d) | ![candle_upper_tail_ratio](https://github.com/user-attachments/assets/686e45ec-d450-4a8d-b14a-bd017c775d7b) | ![candle_lower_tail_ratio](https://github.com/user-attachments/assets/059314ef-b958-4c1c-a1c5-5807d0b408b4) | ![candle_body_ratio](https://github.com/user-attachments/assets/62ff6aed-9915-47ba-9d1a-bb2b284db7c3) | 
+| ![candle_sign](https://github.com/user-attachments/assets/99817acb-76f1-46b4-8742-3a25f782c81c) | | |
 
 ---
 
@@ -124,17 +131,17 @@ Below are the individual distributions of input features used in model training.
 ### 🧮 Five-Quantile Label Bins
 |  |  |  |
 |--|--|--|
-| ![training_labels_5](https://github.com/user-attachments/assets/595a8fd1-9f43-419c-b7ce-a4c054e9dc25) | ![validation_labels_5](https://github.com/user-attachments/assets/d6af6c7f-31b8-4af5-bdea-2a492cf2c9c7) | ![test_labels_5](https://github.com/user-attachments/assets/aec88eac-b583-4e41-bff8-b7f372cbc5cb) |
+| ![training_labels_5](https://github.com/user-attachments/assets/b42616b4-4b14-4055-8a72-b97e56e24e3e) | ![validation_labels_5](https://github.com/user-attachments/assets/23be2e48-8b44-45b8-87d5-e9c6876463a6) | ![test_labels_5](https://github.com/user-attachments/assets/118ad8bd-e0c5-4a6b-8511-a22bc2c5e926) |
 
 ### 📉 Distribution of Predicted Scores
 |  |  |
 |--|--|
-| ![val_top3_pred](https://github.com/user-attachments/assets/12c54e2f-2d06-4027-88b5-7f907e7b89bb) | ![test_top3_pred](https://github.com/user-attachments/assets/f89126b3-bacb-4286-ab35-339d1856299b) |
+| ![val_top3_pred](https://github.com/user-attachments/assets/05be26c3-03a8-40d9-a3e7-8399a3f25792) | ![test_top3_pred](https://github.com/user-attachments/assets/eb286393-d0f4-4832-b7b7-615333e6505e) |
 
 ### 🔍 Label Distribution
 |  |  |  |
 |--|--|--|
-| ![training_labels](https://github.com/user-attachments/assets/42283e32-5139-4f1e-82c9-11ca006db625) | ![validation_labels](https://github.com/user-attachments/assets/bb5147a8-42bb-41e0-bdff-b95e87c416f7) | ![test_labels](https://github.com/user-attachments/assets/d873d458-7bd8-4e3a-8cac-a07433a706d1) |
+| ![training_labels](https://github.com/user-attachments/assets/aa33dd41-d322-44ac-9b70-79ba09b61491) | ![validation_labels](https://github.com/user-attachments/assets/0da18d61-a172-428a-9b5d-1faf512ba99e) | ![test_labels](https://github.com/user-attachments/assets/ac014808-9aee-4a13-8979-8083985cca74) |
 
 ### 📚 Learn More: Ranking Metrics & Loss
 
@@ -165,25 +172,25 @@ For an in-depth explanation of the ranking metric and training objective used in
 | **Cumulative Net Profit**     | **31,043,339**                  | **17,653,692**                  |
 
 ### 📅 Monthly Return
-![val_month_roi](https://github.com/user-attachments/assets/f9f10013-53a5-46c8-bc3b-5b505599d2f3)
-![test_month_roi](https://github.com/user-attachments/assets/c6ae1c82-3ec4-40c2-bed1-c613e077829f)
+![val_month_roi](https://github.com/user-attachments/assets/a86325e7-ad81-41cf-aab0-0108f5934f6c)
+![test_month_roi](https://github.com/user-attachments/assets/66ef248d-80bf-4162-8977-102fb4125a5f)
 
 ### 📊 Daily Return
-![val_january_roi](https://github.com/user-attachments/assets/ca235229-06b9-49a6-b6f9-1f0a1d5f95a0)
-![test_january_roi](https://github.com/user-attachments/assets/7bd4d324-af93-4866-87ce-cc21e6d6ec74)
+![val_january_roi](https://github.com/user-attachments/assets/b94ca751-2b5a-4713-b42e-4264b7027e21)
+![test_january_roi](https://github.com/user-attachments/assets/b683f36c-2550-4021-8e13-a7e7b80fa237)
 
 ### 🏦 Return by Stock
-![val_stocks_roi](https://github.com/user-attachments/assets/03571f4b-7025-4e2c-8934-e1550781ea86)
+![val_stocks_roi](https://github.com/user-attachments/assets/2bd2055f-6c68-416a-9708-f1004a9d93ce)
 
 ### 🤔 Return Distribution by Purchase Decision
 |  |  |
 |--|--|
-| ![매수에_따라_n일_후_수익률_평균값](https://github.com/user-attachments/assets/13b0e320-afd8-4796-a1ee-7bcab90b49a0) | ![매수에_따라_n일_후_수익률_분포](https://github.com/user-attachments/assets/cb8d4c35-864a-41a1-a203-d45a62227d25) |
-| ![매수_False_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/223edd3f-977d-4283-bcd9-91016c2bf83d) | ![매수_True_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/c1b5f3be-62a5-42ab-80a5-070db23bece9) |
+| ![매수에_따라_n일_후_수익률_평균값](https://github.com/user-attachments/assets/b5d3b63b-9fd2-47d5-a42a-51c4d689ac11) | ![매수에_따라_n일_후_수익률_분포](https://github.com/user-attachments/assets/9c4c8f51-d296-48d0-b422-03aa38942f40) |
+| ![매수_False_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/3b8ac0e2-9d17-49c5-8820-b123b2942695) | ![매수_True_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/8fa63121-f834-4f84-bb8e-01a6c8791396) |
 
 ## 🔍 Case Study: Specific Stocks
-![val_한화시스템](https://github.com/user-attachments/assets/6a1f98ad-6d76-4720-a053-8ae578b6dbeb)
-![val_HLB제약](https://github.com/user-attachments/assets/9c41a246-f827-41d7-9581-cbf56f95a76b)
+![val_한화시스템](https://github.com/user-attachments/assets/ad0dfd4f-2bc7-42fd-b2e6-41919d792439)
+![val_HLB제약](https://github.com/user-attachments/assets/359fc1eb-585d-4dcd-bc12-81668883d86e)
 
 ---
 
