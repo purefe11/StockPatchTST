@@ -111,6 +111,7 @@
 ![attention-equals](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Z%20%3D%20\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V)
 
 ![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
+<img src="https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\displaystyle%20Z%20=%20\begin{bmatrix}%20\alpha_{1%2C1}%20&%20\alpha_{1%2C2}%20\\%20\alpha_{2%2C1}%20&%20\alpha_{2%2C2}%20\end{bmatrix}%20\cdot%20\begin{bmatrix}%20v_{1%2C1}%20&%20v_{1%2C2}%20&%20v_{1%2C3}%20\\%20v_{2%2C1}%20&%20v_{2%2C2}%20&%20v_{2%2C3}%20\end{bmatrix}%20=%20\begin{bmatrix}%20z_{1%2C1}%20&%20z_{1%2C2}%20&%20z_{1%2C3}%20\\%20z_{2%2C1}%20&%20z_{2%2C2}%20&%20z_{2%2C3}%20\end{bmatrix}"/>
 
 👉 설명:
 - QK^T: Query와 Key의 내적을 통해 유사도 계산
