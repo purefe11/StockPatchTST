@@ -92,6 +92,12 @@
 📌 핵심 개념:
 - 각 입력 벡터를 질문, 정보 색인, 정보 내용의 세 가지로 나눠서 준비함
 
+💡 *비유:* 
+- "나는 Transformer를 공부한다"
+- Q: "공부한다"라는 위치에서 다른 단어가 얼마나 중요한지를 판단하기 위한 기준
+- K: 각 단어가 가진 특성 (나는, Transformer, 를, 등)
+- V: 실제 단어의 표현을 담은 값
+
 ---
 
 ### 2. Scaled Dot-Product Attention
@@ -102,22 +108,14 @@
 ![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
 
 👉 설명:
-- QK^T(Attention Score): Query와 Key의 내적을 통해 유사도 계산
+- QK^T: Query와 Key의 내적을 통해 유사도 계산
 - 1/sqrt(dk): 내적 값이 너무 커지지 않도록 스케일 조정
 - softmax: 0~1 범위의 가중치로 바꿔서 중요도를 확률처럼 표현
-- 결과에 𝑉를 곱함: 중요한 위치의 정보(Value)를 가중 평균해서 최종 출력으로 사용
+- 위 결과(Attention Score)에 𝑉를 가중합(weighted sum)한다.
 
 📌 핵심 개념:
 - 입력 시퀀스 간 유사도에 따라 Value를 가중 평균해 주는 연산
 - (각 위치의 입력 벡터가, 전체 시퀀스를 스캔하며 어떤 정보를 더 가져올지 결정하는 과정)
-
-💡 *비유:* 
-- "나는 Transformer를 공부한다"
-- Q: "공부한다"라는 위치에서 다른 단어가 얼마나 중요한지를 판단하기 위한 기준
-- K: 각 단어가 가진 특성 (나는, Transformer, 를, 등)
-- V: 실제 단어의 표현을 담은 값
-- → Attention Score = Q와 K의 유사도
-- → Score로 V를 가중합해서 최종 representation 생성
 
 ---
 
