@@ -86,9 +86,10 @@
 ![self-attention-matrix-calculation](https://github.com/user-attachments/assets/45aa8662-704b-426a-8b44-1b89c6a74637)
 
 👉 설명:
-- \( X \): 입력 시퀀스 (n개의 벡터, 각 벡터 차원 model_dim)
+- (X): 입력 시퀀스 (n개의 벡터, 각 벡터 차원 model_dim)
 - 각각에 대해 **Query (질문), Key (정보의 위치), Value (실제 정보)** 를 만들기 위한 선형 변환 
-- \( W^Q, W^K, W^V \): Query, Key, Value 생성을 위한 가중치 행렬
+- (WQ, WK, WV): Query, Key, Value 생성을 위한 가중치 행렬 (모두 랜덤 초기화된 학습 가능한 가중치)
+- Loss 계산 -> 역전파로 Q/K/V의 가중치가 조금씩 바뀜
 
 📌 핵심 개념:
 - 각 입력 벡터를 질문, 정보 색인, 정보 내용의 세 가지로 나눠서 준비함
@@ -96,8 +97,8 @@
 💡 *비유:*
 - 문장: "나는 Transformer를 공부한다"
   - Q(Query): "공부한다"라는 단어에서 다른 단어가 얼마나 중요한지를 판단하기 위한 질문
-  - K(Key): "나는", "Transformer", "를", 등 각 단어의 정보 요약 — 나와 관련 있는지를 판단하는 기준
-  - V(Value): "나는", "Transformer", "를", 등의 실제 의미 벡터 — 중요한 정보를 가져올 때 사용할 값
+  - K(Key): "나는", "Transformer", "를", 등 각 단어의 정보 요약 - 나와 관련 있는지를 판단하는 기준
+  - V(Value): "나는", "Transformer", "를", 등의 실제 의미 벡터 - 중요한 정보를 가져올 때 사용할 값
 - 📌 아래 Attention 과정을 통해 "공부한다"라는 단어는 자신(Q)이 중요하다고 판단한 단어(K)에 해당하는 정보를(V) 가져오게 된다.
 
 ---
