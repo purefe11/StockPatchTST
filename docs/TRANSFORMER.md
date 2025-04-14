@@ -104,10 +104,12 @@
 
 ### 2. Scaled Dot-Product Attention
 
-![Attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK%5ET}{\sqrt{d_k}}\right)V)
+![token-wise-attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;z_1%20%3D%20\sum_{j%3D1}^{n}%20\text{softmax}\left(\frac{q_1%20\cdot%20k_j}{\sqrt{d_k}}\right)%20\cdot%20v_j)
 
 ![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)<br>
 ---	
+![attention-equals](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Z%20%3D%20\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V)
+
 ![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
 
 👉 설명:
