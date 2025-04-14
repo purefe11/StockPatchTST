@@ -82,6 +82,7 @@
 ![QKV](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Q%20%3D%20XW%5EQ%2C%5Cquad%20K%20%3D%20XW%5EK%2C%5Cquad%20V%20%3D%20XW%5EV)
 
 ![transformer_self_attention_vectors](https://github.com/user-attachments/assets/83db602c-417f-4982-a29d-a5a05bf3bf43)
+![self-attention-matrix-calculation](https://github.com/user-attachments/assets/45aa8662-704b-426a-8b44-1b89c6a74637)
 
 👉 설명:
 - \( X \): 입력 시퀀스 (n개의 벡터, 각 벡터 차원 model_dim)
@@ -98,6 +99,7 @@
 ![Attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK%5ET}{\sqrt{d_k}}\right)V)
 
 ![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)<br>
+![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
 
 👉 설명:
 - QK^T: Query와 Key의 내적을 통해 유사도 계산
