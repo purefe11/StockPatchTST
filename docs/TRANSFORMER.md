@@ -196,5 +196,6 @@
 
 ### 📚 추가 참고 자료
 
+- [Transformer의 큰 그림 이해: 기술적 복잡함 없이 핵심 아이디어 파악하기](https://medium.com/@hugmanskj/transformer의-큰-그림-이해-기술적-복잡함-없이-핵심-아이디어-파악하기-5e182a40459d)
 - [PyTorch Transformer Tutorial (Official)](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
 - [Transformer Playground (Visualization Tool)](https://transformer-playground.tensorflow.org/)
