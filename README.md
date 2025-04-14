@@ -185,7 +185,6 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 ## 🔍 Case Study: Specific Stocks
 ![val_한화시스템](https://github.com/user-attachments/assets/ad0dfd4f-2bc7-42fd-b2e6-41919d792439)
-![val_HLB제약](https://github.com/user-attachments/assets/359fc1eb-585d-4dcd-bc12-81668883d86e)
 
 ---
 
