@@ -82,6 +82,7 @@
 ![QKV](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Q%20%3D%20XW%5EQ%2C%5Cquad%20K%20%3D%20XW%5EK%2C%5Cquad%20V%20%3D%20XW%5EV)
 
 ![transformer_self_attention_vectors](https://github.com/user-attachments/assets/83db602c-417f-4982-a29d-a5a05bf3bf43)
+---	
 ![self-attention-matrix-calculation](https://github.com/user-attachments/assets/45aa8662-704b-426a-8b44-1b89c6a74637)
 
 👉 설명:
@@ -106,6 +107,7 @@
 ![Attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK%5ET}{\sqrt{d_k}}\right)V)
 
 ![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)<br>
+---	
 ![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
 
 👉 설명:
@@ -123,7 +125,6 @@
 ### 3. Multi-head Attention
 
 ![MultiHead](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{MultiHead}(X)%20%3D%20\text{Concat}(\text{head}_1%2C%20\dots%2C%20\text{head}_h)W^O)
-
 ![transformer_multi-headed_self-attention-recap](https://github.com/user-attachments/assets/9864cf84-ed63-41f3-acb5-3b711aa94097)
 
 👉 설명:
@@ -143,7 +144,6 @@
 ### 4. Add & LayerNorm
 
 ![AddNorm1](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Z_1%20%3D%20\text{LayerNorm}(X%20+%20\text{MultiHead}(X)))
-
 ![transformer_resideual_layer_norm_2](https://github.com/user-attachments/assets/8e2a0fb0-ec50-4f81-b565-c72ec3098667)
 
 👉 설명:
