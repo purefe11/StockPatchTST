@@ -225,5 +225,5 @@ loss_sum / pair_count
 
 📌 **Tip:**  
 - 회귀는 연속값 예측, 분류는 클래스 예측, 랭킹은 상대 순위 예측에 초점  
-- 불균형 데이터에는 Focal Loss, 순위 모델에는 Pairwise 또는 Listwise Loss 권장
+- 불균형 데이터에는 Focal Loss 권장
 
