@@ -24,7 +24,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ## Transformer-Based Ranking Model for Stock Selection
 📘 See [TRANSFORMER.md](docs/TRANSFORMER.md) to learn how the encoder works inside
 
-![stock_patch_tst](https://github.com/user-attachments/assets/a4741d7d-2ef6-4a17-8089-d1704ea6fc35)
+![stock_patch_tst](https://github.com/user-attachments/assets/217d09f7-d499-4836-92ce-9943e9b02799)
 > Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
 > This not only compresses temporal information but also abstracts each patch into a meaningful representation.
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
