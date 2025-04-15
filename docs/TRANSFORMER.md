@@ -86,9 +86,9 @@
 ![self-attention-matrix-calculation](https://github.com/user-attachments/assets/45aa8662-704b-426a-8b44-1b89c6a74637)
 
 👉 설명:
-- (X): 입력 시퀀스 (n개의 벡터, 각 벡터 차원 model_dim)
+- (X): 입력 시퀀스 (n개의 벡터, 각 벡터 차원은 model_dim)
 - 각각에 대해 **Query (질문), Key (정보의 위치), Value (실제 정보)** 를 만들기 위한 선형 변환 
-- (WQ, WK, WV): Query, Key, Value 생성을 위한 가중치 행렬 (모두 랜덤 초기화된 학습 가능한 가중치)
+- (W^Q, W^K, W^V): Query, Key, Value 생성을 위한 가중치 행렬 (모두 랜덤 초기화된 학습 가능한 가중치)
 - Loss 계산 → 역전파로 Q/K/V의 가중치가 조금씩 바뀜
 
 📌 핵심 개념:
