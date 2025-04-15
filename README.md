@@ -114,10 +114,10 @@ Below are the individual distributions of input features used in model training.
 - Excludes limit-up and newly listed stocks
 
 ## ⚙️ Training Setup
+- Batch-wise stock grouping (up to 200 per day)
 - Dropout: 2.0  
 - Learning Rate: 5e-4  
 - Weight Decay: 5e-5  
-- Batch-wise stock grouping (up to 200 per day)
 
 ## 🏷️ Labeling & Ranking
 - 5-day return quintiles (5 bins) used for soft labels
