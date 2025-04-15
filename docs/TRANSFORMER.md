@@ -1,4 +1,4 @@
-# 🤖 Transformer 인코더 (쉬운 버전!)
+# Transformer 인코더 (쉬운 버전!)
 > Transformer는 '여러 친구가 함께 회의하면서, 누가 중요한 말을 했는지를 판단하는 구조'로 이해하면 쉽다.
 <img src=https://github.com/user-attachments/assets/72a1f54d-dfdf-49bf-8328-c2fff4ce4043 width=640/>
 
