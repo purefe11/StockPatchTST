@@ -10,7 +10,7 @@ matplotlib==3.10.0
 torch==2.6.0+cu126
 torchaudio==2.6.0+cu126
 torchvision==0.21.0+cu126
-yfinance==0.2.52
+yfinance==0.2.55
 jupyterlab==4.3.4
 jupyterlab-execute-time==3.2.0
 seaborn==0.13.2
