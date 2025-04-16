@@ -1,10 +1,10 @@
-# 🤖 Transformer 내부 구조 (쉬운 버전!)
-### “퍼즐을 보는 똑똑한 로봇: Transformer 쉽게 이해하기”
+# Transformer 인코더 (쉬운 버전!)
+> Transformer는 '여러 친구가 함께 회의하면서, 누가 중요한 말을 했는지를 판단하는 구조'로 이해하면 쉽다.
 <img src=https://github.com/user-attachments/assets/72a1f54d-dfdf-49bf-8328-c2fff4ce4043 width=640/>
 
-> 30일 동안의 주식 데이터를 9개 조각(패치)으로 잘랐다고 했을 때
-> 각 조각은 6일 동안의 주가 흐름을 담고 있다.
-> 이제 Transformer라는 로봇이 등장해서 이 9개의 조각을 가지고 무슨 일이 일어날지 생각해보자.
+> 30일 동안의 주식 데이터를 9개의 조각(패치)으로 나눴다고 해보자.
+> 각 조각은 6일치 주가 흐름을 담고 있다.
+> 이제 Transformer는 이 9개의 조각을 어떻게 처리할까?
 
 ---
 
@@ -63,8 +63,8 @@
 
 ## ✨ 한 줄 요약
 
-> **Transformer는 여러 조각이 서로를 바라보며 중요도를 정하고,  
-> 생각을 정리해서 똑똑한 예측을 하는 구조다!**
+> **Transformer는 여러 친구(조각)가 서로의 말을 들으며,
+> 가장 중요한 정보를 찾아내고 똑똑하게 정리해 예측하는 구조다!**
 
 <br>
 
@@ -82,28 +82,43 @@
 ![QKV](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Q%20%3D%20XW%5EQ%2C%5Cquad%20K%20%3D%20XW%5EK%2C%5Cquad%20V%20%3D%20XW%5EV)
 
 ![transformer_self_attention_vectors](https://github.com/user-attachments/assets/83db602c-417f-4982-a29d-a5a05bf3bf43)
+---	
+![self-attention-matrix-calculation](https://github.com/user-attachments/assets/45aa8662-704b-426a-8b44-1b89c6a74637)
 
 👉 설명:
-- \( X \): 입력 시퀀스 (n개의 벡터, 각 벡터 차원 model_dim)
+- (X): 입력 시퀀스 (n개의 벡터, 각 벡터 차원은 model_dim)
 - 각각에 대해 **Query (질문), Key (정보의 위치), Value (실제 정보)** 를 만들기 위한 선형 변환 
-- \( W^Q, W^K, W^V \): Query, Key, Value 생성을 위한 가중치 행렬
+- (W^Q, W^K, W^V): Query, Key, Value 생성을 위한 가중치 행렬 (모두 랜덤 초기화된 학습 가능한 가중치)
+- Loss 계산 → 역전파로 Q/K/V의 가중치가 조금씩 바뀜
 
 📌 핵심 개념:
 - 각 입력 벡터를 질문, 정보 색인, 정보 내용의 세 가지로 나눠서 준비함
+
+💡 *비유:*
+- 문장: "나는 Transformer를 공부한다"
+  - Q(Query): "공부한다"라는 단어에서 다른 단어가 얼마나 중요한지를 판단하기 위한 질문
+  - K(Key): "나는", "Transformer", "를", 등 각 단어의 정보 요약 - 나와 관련 있는지를 판단하는 기준
+  - V(Value): "나는", "Transformer", "를", 등의 실제 의미 벡터 - 중요한 정보를 가져올 때 사용할 값
+- 📌 아래 Attention 과정을 통해 "공부한다"라는 단어는 자신(Q)이 중요하다고 판단한 단어(K)에 해당하는 정보를(V) 가져오게 된다.
 
 ---
 
 ### 2. Scaled Dot-Product Attention
 
-![Attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK%5ET}{\sqrt{d_k}}\right)V)
+![token-wise-attention](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;z_1%20%3D%20\sum_{j%3D1}^{n}%20\text{softmax}\left(\frac{q_1%20\cdot%20k_j}{\sqrt{d_k}}\right)%20\cdot%20v_j)
 
 ![self-attention-output](https://github.com/user-attachments/assets/daf6360a-4ce6-4a0a-a80b-852f26bf0a72)<br>
+---	
+![attention-equals](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Z%20%3D%20\text{Attention}(Q%2C%20K%2C%20V)%20%3D%20\text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V)
+
+![self-attention-matrix-calculation-2](https://github.com/user-attachments/assets/128ee31d-a2b3-4ffd-9fa8-c1eea4873345)
+<img src="https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\displaystyle%20Z%20=%20\begin{bmatrix}%20\alpha_{1%2C1}%20&%20\alpha_{1%2C2}%20\\%20\alpha_{2%2C1}%20&%20\alpha_{2%2C2}%20\end{bmatrix}%20\cdot%20\begin{bmatrix}%20v_{1%2C1}%20&%20v_{1%2C2}%20&%20v_{1%2C3}%20\\%20v_{2%2C1}%20&%20v_{2%2C2}%20&%20v_{2%2C3}%20\end{bmatrix}%20=%20\begin{bmatrix}%20z_{1%2C1}%20&%20z_{1%2C2}%20&%20z_{1%2C3}%20\\%20z_{2%2C1}%20&%20z_{2%2C2}%20&%20z_{2%2C3}%20\end{bmatrix}"/>
 
 👉 설명:
 - QK^T: Query와 Key의 내적을 통해 유사도 계산
 - 1/sqrt(dk): 내적 값이 너무 커지지 않도록 스케일 조정
 - softmax: 0~1 범위의 가중치로 바꿔서 중요도를 확률처럼 표현
-- 결과에 𝑉를 곱함: 중요한 위치의 정보(Value)를 가중 평균해서 최종 출력으로 사용
+- 위 결과(Attention Score)에 𝑉를 가중합(weighted sum)한다.
 
 📌 핵심 개념:
 - 입력 시퀀스 간 유사도에 따라 Value를 가중 평균해 주는 연산
@@ -114,7 +129,6 @@
 ### 3. Multi-head Attention
 
 ![MultiHead](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\text{MultiHead}(X)%20%3D%20\text{Concat}(\text{head}_1%2C%20\dots%2C%20\text{head}_h)W^O)
-
 ![transformer_multi-headed_self-attention-recap](https://github.com/user-attachments/assets/9864cf84-ed63-41f3-acb5-3b711aa94097)
 
 👉 설명:
@@ -134,13 +148,13 @@
 ### 4. Add & LayerNorm
 
 ![AddNorm1](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;Z_1%20%3D%20\text{LayerNorm}(X%20+%20\text{MultiHead}(X)))
-
 ![transformer_resideual_layer_norm_2](https://github.com/user-attachments/assets/8e2a0fb0-ec50-4f81-b565-c72ec3098667)
 
 👉 설명:
 - 원래 입력 𝑋에 self-attention 결과를 더함 (Residual Connection)
+  - 레이어를 거치면서 발생할 수 있는 정보의 손실을 방지하고, 깊은 네트워크에서 발생하기 쉬운 소실된 기울기(`Vanishing Gradient`) 문제 완화
 - 그 다음, 전체 벡터를 정규화 (평균 0, 표준편차 1)
-→ 학습 안정성, 그래디언트 흐름 개선
+  - 학습 과정에서 발생할 수 있는 수치적 불안정성을 줄이고 모델이 더 빠르게 수렴하도록 돕는다.
 
 📌 핵심 개념:
 - 기존 정보와 새로 계산된 정보를 섞은 뒤, 균형 잡힌 벡터로 다시 정리
@@ -153,7 +167,7 @@
 
 👉 설명:
 - 각 위치별로 독립적으로 처리되는 2층 MLP
-- \( W_1, W_2 \): 선형 변환 가중치  
+- (W_1, W_2): 선형 변환 가중치  
 - 중간에 [ReLU](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html)를 써서 비선형성 부여
 
 📌 핵심 개념:
@@ -186,5 +200,6 @@
 
 ### 📚 추가 참고 자료
 
+- [Transformer의 큰 그림 이해: 기술적 복잡함 없이 핵심 아이디어 파악하기](https://medium.com/@hugmanskj/transformer의-큰-그림-이해-기술적-복잡함-없이-핵심-아이디어-파악하기-5e182a40459d)
 - [PyTorch Transformer Tutorial (Official)](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
 - [Transformer Playground (Visualization Tool)](https://transformer-playground.tensorflow.org/)

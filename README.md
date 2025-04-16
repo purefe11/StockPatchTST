@@ -24,7 +24,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ## Transformer-Based Ranking Model for Stock Selection
 📘 See [TRANSFORMER.md](docs/TRANSFORMER.md) to learn how the encoder works inside
 
-![stock_patch_tst](https://github.com/user-attachments/assets/a4741d7d-2ef6-4a17-8089-d1704ea6fc35)
+![stock_patch_tst](https://github.com/user-attachments/assets/217d09f7-d499-4836-92ce-9943e9b02799)
 > Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
 > This not only compresses temporal information but also abstracts each patch into a meaningful representation.
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
@@ -105,22 +105,19 @@ Below are the individual distributions of input features used in model training.
 - Industry embedding integration (mid-level industry classification)
 - Soft label generation from 5-day future returns
 - LambdaRankLoss for pairwise ranking optimization
-- Top-volume filtering & large-cap only:  
-  Model selects stocks within the top 200 by daily trading volume and market capitalization of at least 500B KRW.
 - Real-time applicability:  
   Designed for inference and trade execution near market close (15:40–16:00), based on the final closing price.
 
 ## 🎯 Target Selection Strategy
 - Top 200 stocks by daily trading volume
 - Market cap ≥ 500B KRW
-- Trades executed at closing auction (15:40–16:00)
 - Excludes limit-up and newly listed stocks
 
 ## ⚙️ Training Setup
+- Batch-wise stock grouping (up to 200 per day)
 - Dropout: 2.0  
 - Learning Rate: 5e-4  
 - Weight Decay: 5e-5  
-- Batch-wise stock grouping (up to 200 per day)
 
 ## 🏷️ Labeling & Ranking
 - 5-day return quintiles (5 bins) used for soft labels
@@ -188,7 +185,6 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 ## 🔍 Case Study: Specific Stocks
 ![val_한화시스템](https://github.com/user-attachments/assets/ad0dfd4f-2bc7-42fd-b2e6-41919d792439)
-![val_HLB제약](https://github.com/user-attachments/assets/359fc1eb-585d-4dcd-bc12-81668883d86e)
 
 ---
 
