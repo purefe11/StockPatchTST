@@ -8,7 +8,7 @@
 - [Input Features](#-input-features)
 - [Key Features](#-key-features)
 - [Target Selection Strategy](#-target-selection-strategy)
-- [Training Setup](#%EF%B8%8F-training-setup)
+- [Model Hyperparameters](#-model-hyperparameters)
 - [Labeling & Ranking](#%EF%B8%8F-labeling--ranking)
 - [Return Evaluation](#-return-evaluation)
 - [Case Study](#-case-study-specific-stocks)
@@ -24,7 +24,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ## Transformer-Based Ranking Model for Stock Selection
 📘 See [TRANSFORMER.md](docs/TRANSFORMER.md) to learn how the encoder works inside
 
-![stock_patch_tst](https://github.com/user-attachments/assets/217d09f7-d499-4836-92ce-9943e9b02799)
+![stock_patch_tst_model](https://github.com/user-attachments/assets/0d4c28c7-1bc2-4ea8-93cb-51896741d3c6)
 > Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
 > This not only compresses temporal information but also abstracts each patch into a meaningful representation.
 > The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
@@ -113,11 +113,21 @@ Below are the individual distributions of input features used in model training.
 - Market cap ≥ 500B KRW
 - Excludes limit-up and newly listed stocks
 
-## ⚙️ Training Setup
-- Batch-wise stock grouping (up to 200 per day)
-- Dropout: 2.0  
-- Learning Rate: 5e-4  
-- Weight Decay: 5e-5  
+## 🔧 Model Hyperparameters
+- Batch Size: 1 (up to 200 stocks grouped per day)
+- Input Dimension: 41
+- Industry Embedding Dimension: 4
+- Model Dimension: 64
+- Sliding Window Size: 30
+- Patch Length: 6
+- Patch Stride: 3
+- Number of Attention Heads: 4
+- Number of Transformer Encoder Layers: 2
+- Dropout: 2.0
+- Learning Rate: 5e-4
+- Weight Decay: 5e-5
+- Number of Epochs: 100
+- Early Stopping Patience: 10
 
 ## 🏷️ Labeling & Ranking
 - 5-day return quintiles (5 bins) used for soft labels
