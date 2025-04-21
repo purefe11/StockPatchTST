@@ -27,7 +27,7 @@
 \node[preprocess, below=0.8cm of embed] (concat) {Concatenate\\(input + industry)};
 \node[preprocess, below=0.8cm of concat] (patch) {Patch Extraction\\(len=6, stride=3)};
 \node[conv, below=0.8cm of patch] (conv) {Conv1D};
-\node[transformer, below=0.8cm of conv] (encoder) {Transformer Encoder};
+\node[transformer, below=0.8cm of conv] (encoder) {Transformer Encoder × 2};
 \node[pooling, below=0.8cm of encoder] (pooling) {Pooling};
 \node[output, below=0.8cm of pooling] (fc) {FC};
 \node[loss, below=1.0cm of fc] (loss) {LambdaRankLoss};
