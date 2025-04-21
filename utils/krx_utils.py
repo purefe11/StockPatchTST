@@ -1,10 +1,11 @@
+import numpy as np
 import os
+import pandas as pd
+import requests
 import time
 import xml.etree.ElementTree as et
+import yfinance as yf
 from datetime import datetime, timedelta
-
-import numpy as np
-import pandas as pd
 from pandas import DataFrame
 from pykrx.stock import stock_api
 from pykrx.website.krx.market.core import (
@@ -366,3 +367,65 @@ def index_csv_to_year_parquet(file_name):
         year_df = year_df.drop(columns=["datetime"])
         year_df.to_parquet(f"index/{file_name}_{year}.parquet", index=False)
         print(f"index/{file_name}_{year}.parquet 파일 저장 완료")
+
+
+# 코스피 변동성 지수 조회
+def get_kospi_volatility(from_date, to_date):
+    # http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201010303
+    # https://github.com/FinanceData/FinanceDataReader
+    headers = {
+        'User-Agent': 'Chrome/135.0.0.0 Safari/537.36', 
+        'Referer': 'http://data.krx.co.kr/',
+    }
+    data = {
+        'bld': 'dbms/MDC/STAT/standard/MDCSTAT01201',
+        'locale': 'ko_KR',
+        'indTpCd': '1',
+        'idxIndCd': '300',
+        'idxCd': '1',
+        'idxCd2': '300',
+        'strtDd': from_date,
+        'endDd': to_date,
+        'csvxls_isNo': 'false',
+    }
+
+    url = 'http://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd'
+    r = requests.post(url, data, headers=headers)
+    df = pd.DataFrame(r.json()['output'])
+
+    df = df.rename(columns={
+        'TRD_DD': 'date',
+        'CLSPRC_IDX': 'close',
+        'PRV_DD_CMPR': 'close_rate',
+    })
+    df['date'] = df['date'].str.replace('/', '', regex=False)
+    df = df[['date', 'close', 'close_rate']]
+    df = df.sort_values(by=['date'], ascending=[True]).reset_index(drop=True)
+    time.sleep(0.05)
+    return df
+
+
+def get_yfinance_ohlcv(ticker: str, ndays: int):
+    df = yf.Ticker(ticker).history(period=f"{ndays}d", interval="1d").reset_index()
+    df = df.sort_values(by=["Date"], ascending=[True]).reset_index(drop=True)
+    df = df.rename(columns={
+        'Date': 'date',
+        'Open': 'open',
+        'High': 'high',
+        'Low': 'low',
+        'Close': 'close',
+        'Volume': 'volume',
+    })
+    return df[['date', 'open', 'high', 'low', 'close', 'volume']]
+
+
+def get_sp500_futures(ndays: int):
+    return get_yfinance_ohlcv("ES=F", ndays)
+
+
+def get_nasdaq100_futures(ndays: int):
+    return get_yfinance_ohlcv("NQ=F", ndays)
+
+
+def get_sp500_vix(ndays: int):
+    return get_yfinance_ohlcv("^VIX", ndays)
