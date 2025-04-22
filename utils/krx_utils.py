@@ -416,6 +416,8 @@ def get_yfinance_ohlcv(ticker: str, ndays: int):
         'Close': 'close',
         'Volume': 'volume',
     })
+    df['date'] = df['date'].dt.tz_convert('Asia/Seoul').dt.strftime('%Y%m%d')
+
     # FIXME: 전체 코드에 time.sleep 대신 @rate_limit 적용
     time.sleep(0.05)
     return df[['date', 'open', 'high', 'low', 'close', 'volume']]
