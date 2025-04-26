@@ -79,8 +79,7 @@ The model was trained using a wide range of features including price movement, v
 ## Feature Heatmap
 The following heatmap shows pairwise correlations between selected input features.
 
-![heatmap](https://github.com/user-attachments/assets/79f026a0-f4db-4817-a1a5-4356a8556c89)
-
+![heatmap (2)](https://github.com/user-attachments/assets/00df943a-1b7e-40e1-a051-867734e59d49)
 
 ## Distribution per Feature
 Below are the individual distributions of input features used in model training.
@@ -123,25 +122,25 @@ Below are the individual distributions of input features used in model training.
 - Patch Stride: 3
 - Number of Attention Heads: 4
 - Number of Transformer Encoder Layers: 2
-- Dropout: 2.0
+- Dropout: 2.5
 - Learning Rate: 5e-4
 - Weight Decay: 5e-5
 - Number of Epochs: 100
 - Early Stopping Patience: 10
 
 ## 🏷️ Labeling & Ranking
-- 5-day return quintiles (5 bins) used for soft labels
+- 5-day return quintiles (20 bins) used for soft labels
 - TOP3 selection by predicted score per day
 
-### 🧮 Five-Quantile Label Bins
+### 🧮 20-Quantile Label Bins
 |  |  |  |
 |--|--|--|
-| ![training_labels_5](https://github.com/user-attachments/assets/b42616b4-4b14-4055-8a72-b97e56e24e3e) | ![validation_labels_5](https://github.com/user-attachments/assets/23be2e48-8b44-45b8-87d5-e9c6876463a6) | ![test_labels_5](https://github.com/user-attachments/assets/118ad8bd-e0c5-4a6b-8511-a22bc2c5e926) |
+| ![training_labels_20](https://github.com/user-attachments/assets/f0a7dee6-ef76-419a-ae4a-13dbd81f8ec8) | ![validation_labels_20](https://github.com/user-attachments/assets/65575d5c-0db2-47ed-970d-b80b6ce21c61) | ![test_labels_20](https://github.com/user-attachments/assets/badd344f-84ae-4d46-b117-cf45beab74dc) |
 
 ### 📉 Distribution of Predicted Scores
 |  |  |
 |--|--|
-| ![val_top3_pred](https://github.com/user-attachments/assets/05be26c3-03a8-40d9-a3e7-8399a3f25792) | ![test_top3_pred](https://github.com/user-attachments/assets/eb286393-d0f4-4832-b7b7-615333e6505e) |
+| ![val_top3_pred (2)](https://github.com/user-attachments/assets/494a7665-65c9-4286-a4b7-d59ade67a2c5) | ![test_top3_pred (2)](https://github.com/user-attachments/assets/c2725ab4-1a26-4dce-af85-f4d931e8527f) |
 
 ### 🔍 Label Distribution
 |  |  |  |
@@ -163,38 +162,38 @@ For an in-depth explanation of the ranking metric and training objective used in
 ## 📈 Return Evaluation
 | Item                          | 2024 TOP3                       | 2025 TOP3                       |
 |-------------------------------|----------------------------------|----------------------------------|
-| Number of Samples             | 191,718                         | 42,082                          |
-| Number of Buy / Sell Trades   | 201 / 201                       | 38 / 38                         |
-| **Win Rate (Count, Ratio)**   | 105 trades (52.24%)            | 27 trades (71.05%)             |
-| **Loss Rate (Count, Ratio)**  | 96 trades (47.76%)             | 11 trades (28.95%)             |
-| Average Return (Win)          | 7.07%                           | 7.99%                           |
-| Average Return (Loss)         | -4.50%                          | -3.56%                          |
-| Avg. Holding Period (Win)     | 9.9 calendar days (6.6 trading days) | 9.7 calendar days (6.3 trading days) |
-| Avg. Holding Period (Loss)    | 9.9 calendar days (6.7 trading days) | 10.2 calendar days (6.2 trading days) |
-| Return Deciles                | [-36.0, -7.1, -3.5, -1.7, -0.7, 0.5, 2.3, 4.1, 5.9, 9.2, 36.3] | [-8.2, -4.2, -1.7, 0.1, 0.9, 2.2, 4.0, 7.3, 8.7, 19.8, 30.7] |
+| Number of Samples             | 195,866                         | 42,966                          |
+| Number of Buy / Sell Trades   | 173 / 173                       | 27 / 27                         |
+| **Win Rate (Count, Ratio)**   | 96 trades (55.49%)            | 22 trades (81.48%)             |
+| **Loss Rate (Count, Ratio)**  | 77 trades (44.51%)             | 5 trades (18.52%)             |
+| Average Return (Win)          | 6.66%                           | 8.78%                           |
+| Average Return (Loss)         | -4.90%                          | -4.49%                          |
+| Avg. Holding Period (Win)     | 9.9 calendar days (6.5 trading days) | 9.1 calendar days (6.1 trading days) |
+| Avg. Holding Period (Loss)    | 9.9 calendar days (6.7 trading days) | 13.6 calendar days (7.2 trading days) |
+| Return Deciles                | [-28.7, -6.5, -3.5, -2.2, -0.5, 1.0, 2.5, 4.9, 6.9, 9.7, 34.6] | [-8.2, -3.1, 0.9, 1.2, 3.0, 4.0, 5.6, 7.6, 11.5, 21.2, 30.7] |
 | Trade Capital                 | 10,000,000                     | 10,000,000                     |
-| **Expected Net Return**       | **1.544%**                      | **4.646%**                      |
-| **Cumulative Net Profit**     | **31,043,339**                  | **17,653,692**                  |
+| **Expected Net Return**       | **1.515%**                      | **6.323%**                      |
+| **Cumulative Net Profit**     | **26,210,875**                  | **17,072,862**                  |
 
 ### 📅 Monthly Return
-![val_month_roi](https://github.com/user-attachments/assets/a86325e7-ad81-41cf-aab0-0108f5934f6c)
-![test_month_roi](https://github.com/user-attachments/assets/66ef248d-80bf-4162-8977-102fb4125a5f)
+![val_month_roi (2)](https://github.com/user-attachments/assets/5c22536a-050f-45fc-9cf4-9f7b9a42050b)
+![test_month_roi (2)](https://github.com/user-attachments/assets/bf980f7e-c9bd-448e-9e3d-77777581e1aa)
 
 ### 📊 Daily Return
-![val_january_roi](https://github.com/user-attachments/assets/b94ca751-2b5a-4713-b42e-4264b7027e21)
-![test_january_roi](https://github.com/user-attachments/assets/b683f36c-2550-4021-8e13-a7e7b80fa237)
+![val_january_roi (2)](https://github.com/user-attachments/assets/28d74668-f108-418e-851e-6e85351ac4e3)
+![test_january_roi (2)](https://github.com/user-attachments/assets/fdb8b77f-a4b4-4146-a42b-cde6eb1312cd)
 
 ### 🏦 Return by Stock
-![val_stocks_roi](https://github.com/user-attachments/assets/2bd2055f-6c68-416a-9708-f1004a9d93ce)
+![val_stocks_roi (2)](https://github.com/user-attachments/assets/b716c1fe-7d3e-4cda-8e1d-5ac9a1e907a9)
 
 ### 🤔 Return Distribution by Purchase Decision
 |  |  |
 |--|--|
-| ![매수에_따라_n일_후_수익률_평균값](https://github.com/user-attachments/assets/b5d3b63b-9fd2-47d5-a42a-51c4d689ac11) | ![매수에_따라_n일_후_수익률_분포](https://github.com/user-attachments/assets/9c4c8f51-d296-48d0-b422-03aa38942f40) |
-| ![매수_False_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/3b8ac0e2-9d17-49c5-8820-b123b2942695) | ![매수_True_일_때_n일_후_수익률_분포](https://github.com/user-attachments/assets/8fa63121-f834-4f84-bb8e-01a6c8791396) |
+| ![매수에_따라_n일_후_수익률_평균값 (2)](https://github.com/user-attachments/assets/fda20527-be63-4c29-93bc-03fd709e0925) | ![매수에_따라_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/3fbe2ae7-9203-432b-8d46-322b192f094b) |
+| ![매수_False_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/c6025ef4-8298-4154-bc58-cc617f5148b1) | ![매수_True_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/ac17605d-270b-45d8-be12-4e17d48d2c2d) |
 
 ## 🔍 Case Study: Specific Stocks
-![val_한화시스템](https://github.com/user-attachments/assets/ad0dfd4f-2bc7-42fd-b2e6-41919d792439)
+![val_한화오션](https://github.com/user-attachments/assets/106851f3-8a99-4c2c-828f-2cf967bd148a)
 
 ---
 
