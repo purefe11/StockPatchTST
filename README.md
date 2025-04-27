@@ -100,16 +100,14 @@ Below are the individual distributions of input features used in model training.
 - Early Stopping: 10 epochs
 
 ## 🏷️ Labeling & Ranking
-
-- 5-day future returns are used as soft labels for ranking optimization.
-- **Training data**:  
-  - 5-day returns are clipped between -50% and +100% to remove extreme outliers.  
-  - After clipping, returns are shifted so that the minimum label value becomes zero.
-- **Validation and Test data**:  
-  - Raw 5-day returns are used without clipping to preserve realistic evaluation.  
-  - However, returns are shifted by the same minimum value (from the training set) to maintain a consistent scale with training labels.
-- This strategy ensures training stability while maintaining fair and practical evaluation metrics.
-- Daily TOP3 stock selection is performed based on predicted scores.
+- 5-day future returns are used as soft labels.
+- **Training set:**
+  - Clipping between -50% and +100%
+  - Shifted to make minimum return zero
+- **Validation/Test sets:**
+  - No clipping (raw returns preserved)
+  - Only shifted to make minimum return zero
+- **Daily TOP3 stock selection** based on predicted scores.
 
 ### 🧮 5-Day Future Return Label Distribution (After Clipping & Shifting)
 |  |  |  |
@@ -155,7 +153,8 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 - **Stop-loss:** Closing price drops > 20% from highest price since entry.
 - **Max holding period**: Forced exit after fixed days (e.g., 5 days).
-- **Trailing Entry Extension**: If a new buy signal occurs during holding, reset holding period.
+- **Trailing Entry Extension**:
+If a new buy signal occurs during holding, reset holding period.
 
 **💡 Purpose:**
 - Cut losses early
