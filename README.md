@@ -32,7 +32,7 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ## 🧠 Input Features
 📘 Full feature list: [FEATURES_TECHNICAL_INDICATORS.md](docs/FEATURES_TECHNICAL_INDICATORS.md)
 
-- **Feature engineering:**
+- **Feature engineering:**<br>
 Ratio-based transformations, log-scaling for long-tail features, stable across different stocks.
 
 ### 🏭 Stock Metadata
@@ -88,12 +88,12 @@ Below are the individual distributions of input features used in model training.
 - Excludes limit-up and newly listed stocks
 
 ## 🔧 Model Hyperparameters
-- Input Dimension: 41
-- Industry Embedding Dimension: 4
-- Model Dimension: 64
+- Input Dim: 41
+- Industry Embedding Dim: 4
+- Model Dime: 64
 - Sliding Window Size: 30
 - Patch Length: 6, Stride: 3
-- Transformer Attention Heads: 4, Encoder Layers: 2
+- Transformer Encoder Heads: 4, Layers: 2
 - Dropout: 2.5
 - Learning Rate: 5e-4
 - Weight Decay: 5e-5
@@ -137,6 +137,7 @@ For an in-depth explanation of the ranking metric and training objective used in
 ---
 
 ## 🔍 Post-Filtering Rules
+While model prediction provides initial candidates, additional filtering and dynamic sell strategies are applied to make the system robust for real-world trading.
 
 ### 🛒 Buy Signal Post-Filtering
 - `pred_rank <= topn` (e.g., TOP3)
@@ -153,7 +154,7 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 - **Stop-loss:** Closing price drops > 20% from highest price since entry.
 - **Max holding period**: Forced exit after fixed days (e.g., 5 days).
-- **Trailing Entry Extension**:
+- **Trailing Entry Extension**:<br>
 If a new buy signal occurs during holding, reset holding period.
 
 **💡 Purpose:**
@@ -206,7 +207,7 @@ If a new buy signal occurs during holding, reset holding period.
 - Python 3.12.8
 - PyTorch 2.6.0 + CUDA 12.6  
 - pykrx 1.0.48  
-- See [requirements.txt](./requirements.txt) for full dependency list
+- Full list in [requirements.txt](./requirements.txt)
 
 ## 🧪 Experiment Notebook
 
