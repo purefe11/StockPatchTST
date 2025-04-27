@@ -90,7 +90,7 @@ Below are the individual distributions of input features used in model training.
 ## 🔧 Model Hyperparameters
 - Input Dim: 41
 - Industry Embedding Dim: 4
-- Model Dime: 64
+- Model Dim: 64
 - Sliding Window Size: 30
 - Patch Length: 6, Stride: 3
 - Transformer Encoder Heads: 4, Layers: 2
