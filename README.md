@@ -22,64 +22,40 @@ A chronological overview of model improvements, from LSTM to Transformer variant
 ![model_history](https://github.com/user-attachments/assets/3723d215-bd04-4fae-94a2-d0b3c8534d82)
 
 ## Transformer-Based Ranking Model for Stock Selection
-📘 See [TRANSFORMER.md](docs/TRANSFORMER.md) to learn how the encoder works inside
+📘 See [TRANSFORMER.md](docs/TRANSFORMER.md) for a detailed architecture explanation.
 
 ![stock_patch_tst_model](https://github.com/user-attachments/assets/0d4c28c7-1bc2-4ea8-93cb-51896741d3c6)
-> Although the feature dimension expands from 45 to 64, the input time series of 30 steps is reduced to 9 learned patches through Conv1D.
-> This not only compresses temporal information but also abstracts each patch into a meaningful representation.
-> The Transformer encoder then operates on these patch-level embeddings to learn inter-patch dependencies, rather than processing raw sequences.
+> Patches are extracted via Conv1D to compress temporal data, and a Transformer encoder captures inter-patch dependencies for ranking prediction.
 
 ---
 
 ## 🧠 Input Features
-📘 See [FEATURES_TECHNICAL_INDICATORS.md](docs/FEATURES_TECHNICAL_INDICATORS.md) for the full list of features and indicator formulas.
+📘 Full feature list: [FEATURES_TECHNICAL_INDICATORS.md](docs/FEATURES_TECHNICAL_INDICATORS.md)
 
-The model was trained using a wide range of features including price movement, volatility, volume trends, market indices, and candlestick patterns. Below is the list of major features used for training.
-
-> 💡 **Note on Feature Engineering**  
-> All input features were transformed into **ratio-based values** to enhance generalizability across different price/volume levels.  
-> Instead of applying sliding-window or historical normalization, features were expressed as relative changes (e.g., % gap from moving averages, rate-of-change, ratios).  
-> Long-tail distributions (e.g., volume volatility ratios) were handled via simple log-scaling.  
-> This approach was chosen to keep the feature space interpretable and stable across different stocks and timeframes.
+- **Feature engineering:**
+Ratio-based transformations, log-scaling for long-tail features, stable across different stocks.
 
 ### 🏭 Stock Metadata
-- `industry_id`: Mid-level industry classification code
-- `is_kospi`: Market type (KOSPI / KOSDAQ)
+- `industry_id`, `is_kospi`
 
 ### 💹 Price Flow Indicators
-- `close_rate`: Rate of change from previous close
-- `open_to_close`, `high_to_low`: Intraday price movement ratios
-- `rsi`: Relative Strength Index
-- `macd_ratio`, `macd_signal_ratio`: MACD-related momentum ratios
-- `macd_golden_cross`, `macd_dead_cross`: Momentum cross signals
-- `atr_ratio`: Volatility ratio
+- `close_rate`, `open_to_close`, `high_to_low`, `rsi`, `ato`, `macd` related
 
 ### 📊 VWMA & Bollinger Bands
-- `vwma5_gap`, `vwma20_gap`: VWMA (5/20-day) deviation from current close
-- `vwma_bb_upper_ratio`, `vwma_bb_lower_ratio`, `vwma_bb_width`: VWMA-based Bollinger Band metrics
+- `vwma5_gap`, `vwma20_gap`, `vwma_bb_width` etc.
 
-### 🌍 Market Index Indicators
-- `kospi_close_rate`, `kosdaq_close_rate`
-- `kospi_vwma5_gap`, `kospi_vwma20_gap`
-- `kosdaq_vwma5_gap`, `kosdaqi_vwma20_gap`
-- `sp500f_close_rate`, `sp500f_ma5_gap`, `sp500f_ma20_gap`
-- `nasdaq100f_close_rate`, `nasdaq100f_ma5_gap`, `nasdaq100f_ma20_gap`
-- `vix_close_rate`, `sp500v_close_rate`
+### 🌍 Market Indices
+- KOSPI, KOSDAQ, S&P500 Futures, Nasdaq 100 Futures, VIX, etc.
 
-### 🔁 Volume & Flow Indicators
-- `trading_volume_volatility_ratio`
-- `trading_change`, `trading_rolling_change`
-- `foreign_rate`, `institution_rate`, `individual_rate`
-- `foreign_net_buy_days`, `institution_net_buy_days`
+### 🔁 Volume & Flow
+- Volume volatility ratios, net buy rates
 
 ### 📈 Candlestick Patterns
-- `candle_upper_tail_ratio`, `candle_lower_tail_ratio`
-- `candle_body_ratio`, `candle_sign`
+- Upper/lower tail ratios, body ratios
 
 ## Feature Heatmap
 The following heatmap shows pairwise correlations between selected input features.
-
-![heatmap (2)](https://github.com/user-attachments/assets/00df943a-1b7e-40e1-a051-867734e59d49)
+![heatmap](https://github.com/user-attachments/assets/d91c5728-0bc5-4b72-8a17-26e8d5f5fe5e)
 
 ## Distribution per Feature
 Below are the individual distributions of input features used in model training.
@@ -100,12 +76,11 @@ Below are the individual distributions of input features used in model training.
 ---
 
 ## 🔧 Key Features
-- Patch-wise Transformer encoder for time-series inputs
-- Industry embedding integration (mid-level industry classification)
-- Soft label generation from 5-day future returns
-- LambdaRankLoss for pairwise ranking optimization
-- Real-time applicability:  
-  Designed for inference and trade execution near market close (15:40–16:00), based on the final closing price.
+- Patch-wise Transformer encoder
+- Industry embeddings
+- Soft label generation from clipped & shifted returns
+- LambdaRankLoss for ranking optimization
+- Real-time applicability (15:40–16:00 trading window)
 
 ## 🎯 Target Selection Strategy
 - Top 200 stocks by daily trading volume
@@ -113,39 +88,43 @@ Below are the individual distributions of input features used in model training.
 - Excludes limit-up and newly listed stocks
 
 ## 🔧 Model Hyperparameters
-- Batch Size: 1 (up to 200 stocks grouped per day)
 - Input Dimension: 41
 - Industry Embedding Dimension: 4
 - Model Dimension: 64
 - Sliding Window Size: 30
-- Patch Length: 6
-- Patch Stride: 3
-- Number of Attention Heads: 4
-- Number of Transformer Encoder Layers: 2
+- Patch Length: 6, Stride: 3
+- Transformer Attention Heads: 4, Encoder Layers: 2
 - Dropout: 2.5
 - Learning Rate: 5e-4
 - Weight Decay: 5e-5
-- Number of Epochs: 100
-- Early Stopping Patience: 10
+- Early Stopping: 10 epochs
 
 ## 🏷️ Labeling & Ranking
-- 5-day return quintiles (20 bins) used for soft labels
-- TOP3 selection by predicted score per day
 
-### 🧮 20-Quantile Label Bins
+- 5-day future returns are used as soft labels for ranking optimization.
+- **Training data**:  
+  - 5-day returns are clipped between -50% and +100% to remove extreme outliers.  
+  - After clipping, returns are shifted so that the minimum label value becomes zero.
+- **Validation and Test data**:  
+  - Raw 5-day returns are used without clipping to preserve realistic evaluation.  
+  - However, returns are shifted by the same minimum value (from the training set) to maintain a consistent scale with training labels.
+- This strategy ensures training stability while maintaining fair and practical evaluation metrics.
+- Daily TOP3 stock selection is performed based on predicted scores.
+
+### 🧮 5-Day Future Return Label Distribution (After Clipping & Shifting)
 |  |  |  |
 |--|--|--|
-| ![training_labels_20](https://github.com/user-attachments/assets/f0a7dee6-ef76-419a-ae4a-13dbd81f8ec8) | ![validation_labels_20](https://github.com/user-attachments/assets/65575d5c-0db2-47ed-970d-b80b6ce21c61) | ![test_labels_20](https://github.com/user-attachments/assets/badd344f-84ae-4d46-b117-cf45beab74dc) |
+| ![train_soft_labels](https://github.com/user-attachments/assets/16188e31-3f70-4cdb-bf66-0c9165413bdc) | ![val_soft_labels](https://github.com/user-attachments/assets/e3115dc8-c14c-40bf-b473-d7232ef36f5a) | ![test_soft_labels](https://github.com/user-attachments/assets/f7fb2e29-e2ae-454d-8dee-c40286d01588) |
 
 ### 📉 Distribution of Predicted Scores
 |  |  |
 |--|--|
-| ![val_top3_pred (2)](https://github.com/user-attachments/assets/494a7665-65c9-4286-a4b7-d59ade67a2c5) | ![test_top3_pred (2)](https://github.com/user-attachments/assets/c2725ab4-1a26-4dce-af85-f4d931e8527f) |
+| ![val_top3_pred](https://github.com/user-attachments/assets/6fb8fe45-513e-418a-b622-30b88ec5065d) | ![test_top3_pred](https://github.com/user-attachments/assets/87bb62e1-91dd-4964-8cbf-43372c93ce83) |
 
-### 🔍 Label Distribution
+### 🔍 Label Raw Distribution
 |  |  |  |
 |--|--|--|
-| ![training_labels](https://github.com/user-attachments/assets/aa33dd41-d322-44ac-9b70-79ba09b61491) | ![validation_labels](https://github.com/user-attachments/assets/0da18d61-a172-428a-9b5d-1faf512ba99e) | ![test_labels](https://github.com/user-attachments/assets/ac014808-9aee-4a13-8979-8083985cca74) |
+| ![train_raw_labels](https://github.com/user-attachments/assets/3526516a-59f9-4cb0-beaa-b05c9afc5356) | ![val_raw_labels](https://github.com/user-attachments/assets/c16b2585-4cdb-42f3-b4fa-a5121b288b28) | ![test_raw_lables](https://github.com/user-attachments/assets/6103eb82-d610-4b58-8ce9-2d1fd56b364b) |
 
 ### 📚 Learn More: Ranking Metrics & Loss
 
@@ -159,41 +138,67 @@ For an in-depth explanation of the ranking metric and training objective used in
 
 ---
 
+## 🔍 Post-Filtering Rules
+
+### 🛒 Buy Signal Post-Filtering
+- `pred_rank <= topn` (e.g., TOP3)
+- `pred > 0.26` (confidence threshold)
+- `atr_ratio > 0.03` (sufficient volatility)
+- `close_rate > -10%` (avoiding sharp decliners)
+
+**💡 Purpose:**
+- Select only strong, active, and relatively stable candidates for buying.
+
+---
+
+### 💵 Sell Signal Detection
+
+- **Stop-loss:** Closing price drops > 20% from highest price since entry.
+- **Max holding period**: Forced exit after fixed days (e.g., 5 days).
+- **Trailing Entry Extension**: If a new buy signal occurs during holding, reset holding period.
+
+**💡 Purpose:**
+- Cut losses early
+- Avoid stale positions
+- Maximize gains on strong performers
+
+---
+
 ## 📈 Return Evaluation
 | Item                          | 2024 TOP3                       | 2025 TOP3                       |
 |-------------------------------|----------------------------------|----------------------------------|
 | Number of Samples             | 195,866                         | 42,966                          |
-| Number of Buy / Sell Trades   | 173 / 173                       | 27 / 27                         |
-| **Win Rate (Count, Ratio)**   | 96 trades (55.49%)            | 22 trades (81.48%)             |
-| **Loss Rate (Count, Ratio)**  | 77 trades (44.51%)             | 5 trades (18.52%)             |
-| Average Return (Win)          | 6.66%                           | 8.78%                           |
-| Average Return (Loss)         | -4.90%                          | -4.49%                          |
-| Avg. Holding Period (Win)     | 9.9 calendar days (6.5 trading days) | 9.1 calendar days (6.1 trading days) |
-| Avg. Holding Period (Loss)    | 9.9 calendar days (6.7 trading days) | 13.6 calendar days (7.2 trading days) |
-| Return Deciles                | [-28.7, -6.5, -3.5, -2.2, -0.5, 1.0, 2.5, 4.9, 6.9, 9.7, 34.6] | [-8.2, -3.1, 0.9, 1.2, 3.0, 4.0, 5.6, 7.6, 11.5, 21.2, 30.7] |
+| Number of Buy / Sell Trades   | 147 / 147                       | 23 / 23                         |
+| **Win Rate (Count, Ratio)**   | 94 trades (63.95%)            | 17 trades (73.91%)             |
+| **Loss Rate (Count, Ratio)**  | 53 trades (36.05%)             | 6 trades (26.09%)             |
+| Average Return (Win)          | 7.89%                           | 9.40%                           |
+| Average Return (Loss)         | -6.89%                          | -4.28%                          |
+| Avg. Holding Period (Win)     | 9.4 calendar days (6.3 trading days) | 9.9 calendar days (6.1 trading days) |
+| Avg. Holding Period (Loss)    | 10.2 calendar days (7.0 trading days) | 15.3 calendar days (9.5 trading days) |
+| Return Deciles                | [-26.9, -8.2, -3.6, -1.1, 0.7, 2.5, 4.2, 6.1, 9.2, 13.6, 34.9] | [-7.0, -5.5, -0.9, 1.3, 1.8, 5.6, 6.8, 9.6, 12.5, 14.4, 26.2] |
 | Trade Capital                 | 10,000,000                     | 10,000,000                     |
-| **Expected Net Return**       | **1.515%**                      | **6.323%**                      |
-| **Cumulative Net Profit**     | **26,210,875**                  | **17,072,862**                  |
+| **Expected Net Return**       | **2.560%**                      | **5.831%**                      |
+| **Cumulative Net Profit**     | **37,633,908**                  | **13,412,196**                  |
 
 ### 📅 Monthly Return
-![val_month_roi (2)](https://github.com/user-attachments/assets/5c22536a-050f-45fc-9cf4-9f7b9a42050b)
-![test_month_roi (2)](https://github.com/user-attachments/assets/bf980f7e-c9bd-448e-9e3d-77777581e1aa)
+![val_month_roi](https://github.com/user-attachments/assets/9e55f812-926d-4ed0-9f40-fa1e4f2fe23d)
+![test_month_roi](https://github.com/user-attachments/assets/4633754f-a7e1-4ac4-9b3c-a9ca90f71525)
 
 ### 📊 Daily Return
-![val_january_roi (2)](https://github.com/user-attachments/assets/28d74668-f108-418e-851e-6e85351ac4e3)
-![test_january_roi (2)](https://github.com/user-attachments/assets/fdb8b77f-a4b4-4146-a42b-cde6eb1312cd)
+![val_january_roi](https://github.com/user-attachments/assets/7bdfe6e9-ae9e-4f27-a00d-f1b592ebaa15)
+![test_january_roi](https://github.com/user-attachments/assets/55e121d0-1c05-4b39-b856-aee3b2f71c1a)
 
 ### 🏦 Return by Stock
-![val_stocks_roi (2)](https://github.com/user-attachments/assets/b716c1fe-7d3e-4cda-8e1d-5ac9a1e907a9)
+![val_stocks_roi](https://github.com/user-attachments/assets/e599cd1b-140f-4915-8908-980215978025)
 
 ### 🤔 Return Distribution by Purchase Decision
 |  |  |
 |--|--|
-| ![매수에_따라_n일_후_수익률_평균값 (2)](https://github.com/user-attachments/assets/fda20527-be63-4c29-93bc-03fd709e0925) | ![매수에_따라_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/3fbe2ae7-9203-432b-8d46-322b192f094b) |
-| ![매수_False_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/c6025ef4-8298-4154-bc58-cc617f5148b1) | ![매수_True_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/ac17605d-270b-45d8-be12-4e17d48d2c2d) |
+| ![매수에따라n일후수익률평균값](https://github.com/user-attachments/assets/df8b2120-881e-400e-9e35-8e145c538f95) | ![매수에따라n일후수익률분포](https://github.com/user-attachments/assets/c6d90f5f-d62e-4e69-8521-abc3eff268f7) |
+| ![매수False일때n일후수익률분포](https://github.com/user-attachments/assets/fdce00d5-03ad-4217-ad8d-ab9912a87061) | ![매수True일때n일후수익률분포](https://github.com/user-attachments/assets/ebc42a34-3aac-45d8-b30d-da7d2451d4c7) |
 
 ## 🔍 Case Study: Specific Stocks
-![val_한화오션](https://github.com/user-attachments/assets/106851f3-8a99-4c2c-828f-2cf967bd148a)
+![val_한화오션](https://github.com/user-attachments/assets/01d51ab8-93cf-460c-b383-25c1e93d9768)
 
 ---
 
