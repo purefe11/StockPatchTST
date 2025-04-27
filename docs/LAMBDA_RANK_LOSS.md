@@ -9,7 +9,7 @@
 ### 🔹 1. 입력 정의
 
 - `preds`: 모델이 출력한 예측 점수 (종목 간 우월성, 높을 수록 상위 랭킹 예측)
-- `targets`: 실제 수익률 기반 라벨 (5일 후 수익률 n분위수)
+- `targets`: 실제 수익률 기반 라벨 (5일 후 수익률 클리핑&쉬프트)
 
 ```python
 preds:  Tensor of shape (N,)
@@ -25,7 +25,7 @@ safe_targets = torch.clamp_min(targets, 0.0)
 ```
 
 - NDCG 계산은 음수 relevance(우월성 점수)를 허용하지 않기 때문에 **음수 값이 들어올 경우 0으로 보정**
-- n분위 등급처럼 **0 이상 정수 값만 사용하는 경우 이 단계는 영향 없음**
+- 5일 후 수익률 라벨(클리핑&쉬프트)의 경우 **0 이상 정수 값만 사용하기 때문에 이 단계는 영향 없음**
 
 ---
 
@@ -118,60 +118,7 @@ loss_sum / pair_count
 > **"순서를 바꿨을 때 NDCG 점수가 얼마나 좋아지는지를 계산해서,  
 > 모델에게 그 방향으로 점수를 조정하라고 학습시키는 방식"**
 
-<br><br>
-
-# 🧠 LambdaRankLoss에서 동일 분위수(공동 등수)가 많은 경우
-
-### 🔢 예시
-- 일별 최대 200개 종목  
-- 수익률을 5분위로 라벨링 (0, 1, 2, 3, 4)  
-- 각 분위에 40개씩 고르게 분포
-
----
-
-### 📊 쌍(pair)의 개수 계산
-
-- **전체 쌍 수**:
-
-  ![전체쌍수](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\binom{200}{2}&space;=&space;\frac{200&space;\times&space;199}{2}&space;=&space;19,900)
-
-- **같은 분위 내 쌍 수** (예: 분위 0 내 40개 중 2개 선택):
-
-  ![같은분위수쌍](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;\binom{40}{2}&space;=&space;\frac{40&space;\times&space;39}{2}&space;=&space;780)
-
-- 분위가 5개니까:
-
-  ![전체제외쌍](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;780&space;\times&space;5&space;=&space;3,900)
-
----
-
-### 🚫 LambdaRankLoss에서 제외되는 쌍
-
-- 같은 분위에 속한 종목들은 **relevance 차이 = 0**
-
-  ![Sij_0](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;S_{ij}&space;=&space;\text{sign}(target_i&space;-&space;target_j)&space;=&space;0)
-
-- → `S_ij = 0`인 쌍은 **loss 계산에서 제외**
-
----
-
-### ✅ 문제인가?
-
-**여전히 다음과 같은 유효 쌍이 많이 존재하기 때문에 큰 문제는 아니다!**
-
-  ![유효쌍](https://latex.codecogs.com/png.image?\fg{gray}\dpi{100}&space;19,900&space;-&space;3,900&space;=&space;16,000)
-
-- 유효한 비교 쌍이 **16,000쌍 이상** 존재
-- **학습 신호가 줄어들긴 하지만 충분히 남아 있음**
-- 이런 동작은 **pairwise 랭킹 손실 함수의 자연스러운 특성**
-
----
-
-### 🔁 참고: 개선 아이디어
-
-- **분위 수 늘리기** (예: 20 분위) → 더 많은 유효 쌍 확보
-
-<br><br>
+<br>
 
 # 📌 Appendix: 손실 함수 비교 정리
 
