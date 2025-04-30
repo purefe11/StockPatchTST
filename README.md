@@ -90,7 +90,7 @@ Below are the individual distributions of input features used in model training.
 ## 🔧 Model Hyperparameters
 - Input Dim: 41
 - Industry Embedding Dim: 4
-- Model Dime: 64
+- Model Dim: 64
 - Sliding Window Size: 30
 - Patch Length: 6, Stride: 3
 - Transformer Encoder Heads: 4, Layers: 2
@@ -119,7 +119,7 @@ Below are the individual distributions of input features used in model training.
 |--|--|
 | ![val_top3_pred](https://github.com/user-attachments/assets/6fb8fe45-513e-418a-b622-30b88ec5065d) | ![test_top3_pred](https://github.com/user-attachments/assets/87bb62e1-91dd-4964-8cbf-43372c93ce83) |
 
-### 🔍 Label Raw Distribution
+### 🔍 Raw Label Distribution
 |  |  |  |
 |--|--|--|
 | ![train_raw_labels](https://github.com/user-attachments/assets/3526516a-59f9-4cb0-beaa-b05c9afc5356) | ![val_raw_labels](https://github.com/user-attachments/assets/c16b2585-4cdb-42f3-b4fa-a5121b288b28) | ![test_raw_lables](https://github.com/user-attachments/assets/6103eb82-d610-4b58-8ce9-2d1fd56b364b) |
