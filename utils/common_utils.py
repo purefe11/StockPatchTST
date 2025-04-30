@@ -1,12 +1,14 @@
+import warnings
 from datetime import datetime
 from datetime import timedelta
 
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as mcal
 
 
-def add_days(date_str: str, days_to_add: int, date_format='%Y%m%d'):
-    return (datetime.strptime(date_str, date_format) + timedelta(days=days_to_add)).strftime(date_format)
+def add_days(date_str: str, days_to_add: int, from_date_format='%Y%m%d', to_date_format='%Y%m%d'):
+    return (datetime.strptime(date_str, from_date_format) + timedelta(days=days_to_add)).strftime(to_date_format)
 
 
 # 매수/매도 수수료 및 세금
@@ -156,6 +158,33 @@ def get_net_buy_rate(df, column, ndays):
     ]
 
     return np.select(conditions, values, default=0)
+
+
+def get_n_previous_trading_date_from_year(year, ndays):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+
+        # 한국거래소 캘린더 불러오기
+        krx = mcal.get_calendar('XKRX')
+
+        # 연도 기준 n거래일 전 날짜 가져오기
+        schedule = krx.schedule(start_date=f'{year - 1}-01-01', end_date=f'{year}-01-01')
+        return schedule.index[-ndays].strftime('%Y%m%d')
+
+
+def get_n_previous_trading_date_from_date(date, ndays):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+
+        # 한국거래소 캘린더 불러오기
+        krx = mcal.get_calendar('XKRX')
+
+        end_date = add_days(date, 0, to_date_format='%Y-%m-%d')
+        start_date = add_days(date, -(ndays * 2), to_date_format='%Y-%m-%d')
+
+        # 연도 기준 n거래일 전 날짜 가져오기
+        schedule = krx.schedule(start_date=start_date, end_date=end_date)
+        return schedule.index[-ndays].strftime('%Y%m%d')
 
 
 # 표준산업중분류코드

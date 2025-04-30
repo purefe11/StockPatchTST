@@ -5,7 +5,6 @@ import openai
 
 from settings import settings
 
-
 openai.api_key = settings.OPEN_API_KEY
 
 # 로깅 설정 (콘솔 출력 전용)

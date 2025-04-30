@@ -1,11 +1,12 @@
-import numpy as np
 import os
-import pandas as pd
-import requests
 import time
 import xml.etree.ElementTree as et
-import yfinance as yf
 from datetime import datetime, timedelta
+
+import numpy as np
+import pandas as pd
+import requests
+import yfinance as yf
 from pandas import DataFrame
 from pykrx.stock import stock_api
 from pykrx.website.krx.market.core import (
@@ -14,7 +15,7 @@ from pykrx.website.krx.market.core import (
 from pykrx.website.krx.market.ticker import get_stock_ticker_isin
 from pykrx.website.naver.core import Sise
 
-from .common_utils import add_days
+from utils.common_utils import add_days
 
 
 # n거래일 조회
@@ -107,7 +108,7 @@ def get_kosdaq_index(start_date: str, end_date: str) -> DataFrame:
 
 # https://github.com/sharebook-kr/pykrx
 # 종목 날짜별 시가/고가/저가/종가/거래량/등락률
-# 당일 데이터는 오후 3시 20분 이후 가져올 수 있다.
+# 당일 데이터는 오후 3시 30분 이후 가져올 수 있다.
 def get_ohlcv(ticker, start_date, end_date):
     df = stock_api.get_market_ohlcv_by_date(fromdate=start_date, todate=end_date, ticker=ticker)
     if df.empty:
@@ -398,6 +399,13 @@ def get_kospi_volatility(from_date, to_date):
         'CLSPRC_IDX': 'close',
         'PRV_DD_CMPR': 'close_rate',
     })
+
+    # 타입 변경
+    df = df.astype({
+        'close': 'float',
+        'close_rate': 'float',
+    })
+    
     df['date'] = df['date'].str.replace('/', '', regex=False)
     df = df[['date', 'close', 'close_rate']]
     df = df.sort_values(by=['date'], ascending=[True]).reset_index(drop=True)
@@ -406,7 +414,7 @@ def get_kospi_volatility(from_date, to_date):
 
 
 def get_yfinance_ohlcv(ticker: str, ndays: int):
-    df = yf.Ticker(ticker).history(period=f"{ndays}d", interval="1d").reset_index()
+    df = yf.Ticker(ticker).history(period=f"{ndays * 2}d", interval="1d").reset_index()
     df = df.sort_values(by=["Date"], ascending=[True]).reset_index(drop=True)
     df = df.rename(columns={
         'Date': 'date',
@@ -416,6 +424,8 @@ def get_yfinance_ohlcv(ticker: str, ndays: int):
         'Close': 'close',
         'Volume': 'volume',
     })
+    # 타임존을 변경해도 날짜 변화는 없다.
+    # 미국 동부시간(UTC-4) 0시 -> 한국시간(UTC+9) 13시
     df['date'] = df['date'].dt.tz_convert('Asia/Seoul').dt.strftime('%Y%m%d')
 
     # FIXME: 전체 코드에 time.sleep 대신 @rate_limit 적용
