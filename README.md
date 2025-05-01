@@ -77,8 +77,8 @@ Below are the individual distributions of input features used in model training.
 
 ## 🔧 Key Features
 - Patch-wise Transformer encoder
-- Industry embeddings
-- Soft label generation from clipped & shifted returns
+- Industry embedding
+- Soft label generation from 5-day future returns
 - LambdaRankLoss for ranking optimization
 - Real-time applicability (15:40–16:00 trading window)
 
@@ -94,35 +94,29 @@ Below are the individual distributions of input features used in model training.
 - Sliding Window Size: 30
 - Patch Length: 6, Stride: 3
 - Transformer Encoder Heads: 4, Layers: 2
-- Dropout: 2.5
+- Dropout: 2
 - Learning Rate: 5e-4
 - Weight Decay: 5e-5
-- Early Stopping: 10 epochs
+- Early Stopping Patience: 10 epochs
 
 ## 🏷️ Labeling & Ranking
-- 5-day future returns are used as soft labels.
-- **Training set:**
-  - Clipping between -50% and +100%
-  - Shifted to make minimum return zero
-- **Validation/Test sets:**
-  - No clipping (raw returns preserved)
-  - Only shifted to make minimum return zero
-- **Daily TOP3 stock selection** based on predicted scores.
+- 5-day return quintiles (20 bins) used for soft labels
+- TOP3 selection by predicted score per day
 
-### 🧮 5-Day Future Return Label Distribution (After Clipping & Shifting)
+### 🧮 20-Quantile Label Bins
 |  |  |  |
 |--|--|--|
-| ![train_soft_labels](https://github.com/user-attachments/assets/16188e31-3f70-4cdb-bf66-0c9165413bdc) | ![val_soft_labels](https://github.com/user-attachments/assets/e3115dc8-c14c-40bf-b473-d7232ef36f5a) | ![test_soft_labels](https://github.com/user-attachments/assets/f7fb2e29-e2ae-454d-8dee-c40286d01588) |
+| ![training_labels_20](https://github.com/user-attachments/assets/f0a7dee6-ef76-419a-ae4a-13dbd81f8ec8) | ![validation_labels_20](https://github.com/user-attachments/assets/65575d5c-0db2-47ed-970d-b80b6ce21c61) | ![test_labels_20](https://github.com/user-attachments/assets/badd344f-84ae-4d46-b117-cf45beab74dc) |
 
 ### 📉 Distribution of Predicted Scores
 |  |  |
 |--|--|
-| ![val_top3_pred](https://github.com/user-attachments/assets/6fb8fe45-513e-418a-b622-30b88ec5065d) | ![test_top3_pred](https://github.com/user-attachments/assets/87bb62e1-91dd-4964-8cbf-43372c93ce83) |
+| ![val_top3_pred (2)](https://github.com/user-attachments/assets/494a7665-65c9-4286-a4b7-d59ade67a2c5) | ![test_top3_pred (2)](https://github.com/user-attachments/assets/c2725ab4-1a26-4dce-af85-f4d931e8527f) |
 
 ### 🔍 Raw Label Distribution
 |  |  |  |
 |--|--|--|
-| ![train_raw_labels](https://github.com/user-attachments/assets/3526516a-59f9-4cb0-beaa-b05c9afc5356) | ![val_raw_labels](https://github.com/user-attachments/assets/c16b2585-4cdb-42f3-b4fa-a5121b288b28) | ![test_raw_lables](https://github.com/user-attachments/assets/6103eb82-d610-4b58-8ce9-2d1fd56b364b) |
+| ![training_labels](https://github.com/user-attachments/assets/aa33dd41-d322-44ac-9b70-79ba09b61491) | ![validation_labels](https://github.com/user-attachments/assets/0da18d61-a172-428a-9b5d-1faf512ba99e) | ![test_labels](https://github.com/user-attachments/assets/ac014808-9aee-4a13-8979-8083985cca74) |
 
 ### 📚 Learn More: Ranking Metrics & Loss
 
@@ -141,64 +135,54 @@ While model prediction provides initial candidates, additional filtering and dyn
 
 ### 🛒 Buy Signal Post-Filtering
 - `pred_rank <= topn` (e.g., TOP3)
-- `pred > 0.26` (confidence threshold)
 - `atr_ratio > 0.03` (sufficient volatility)
 - `close_rate > -10%` (avoiding sharp decliners)
-
-**💡 Purpose:**
-- Select only strong, active, and relatively stable candidates for buying.
 
 ---
 
 ### 💵 Sell Signal Detection
 
-- **Stop-loss:** Closing price drops > 20% from highest price since entry.
 - **Max holding period**: Forced exit after fixed days (e.g., 5 days).
 - **Trailing Entry Extension**:<br>
 If a new buy signal occurs during holding, reset holding period.
 
-**💡 Purpose:**
-- Cut losses early
-- Avoid stale positions
-- Maximize gains on strong performers
-
 ---
 
 ## 📈 Return Evaluation
-| Item                          | 2024 TOP3                       | 2025 TOP3                       |
-|-------------------------------|----------------------------------|----------------------------------|
-| Number of Samples             | 195,866                         | 42,966                          |
-| Number of Buy / Sell Trades   | 147 / 147                       | 23 / 23                         |
-| **Win Rate (Count, Ratio)**   | 94 trades (63.95%)            | 17 trades (73.91%)             |
-| **Loss Rate (Count, Ratio)**  | 53 trades (36.05%)             | 6 trades (26.09%)             |
-| Average Return (Win)          | 7.89%                           | 9.40%                           |
-| Average Return (Loss)         | -6.89%                          | -4.28%                          |
-| Avg. Holding Period (Win)     | 9.4 calendar days (6.3 trading days) | 9.9 calendar days (6.1 trading days) |
-| Avg. Holding Period (Loss)    | 10.2 calendar days (7.0 trading days) | 15.3 calendar days (9.5 trading days) |
-| Return Deciles                | [-26.9, -8.2, -3.6, -1.1, 0.7, 2.5, 4.2, 6.1, 9.2, 13.6, 34.9] | [-7.0, -5.5, -0.9, 1.3, 1.8, 5.6, 6.8, 9.6, 12.5, 14.4, 26.2] |
-| Trade Capital                 | 10,000,000                     | 10,000,000                     |
-| **Expected Net Return**       | **2.560%**                      | **5.831%**                      |
-| **Cumulative Net Profit**     | **37,633,908**                  | **13,412,196**                  |
+| Item                          | 2024 TOP3                                                      | 2025 TOP3                                                     |
+|-------------------------------|----------------------------------------------------------------|---------------------------------------------------------------|
+| Number of Samples             | 195,866                                                        | 42,966                                                        |
+| Number of Buy / Sell Trades   | 205 / 205                                                      | 35 / 35                                                       |
+| **Win Rate (Count, Ratio)**   | 112 trades (54.63%)                                            | 26 trades (74.29%)                                            |
+| **Loss Rate (Count, Ratio)**  | 93 trades (45.37%)                                             | 9 trades (25.71%)                                             |
+| Average Return (Win)          | 6.23%                                                          | 7.54%                                                         |
+| Average Return (Loss)         | -4.57%                                                         | -3.88%                                                        |
+| Avg. Holding Period (Win)     | 9.6 calendar days (6.4 trading days)                           | 9.2 calendar days (5.8 trading days)                          |
+| Avg. Holding Period (Loss)    | 9.5 calendar days (6.5 trading days)                           | 10.7 calendar days (6.2 trading days)                         |
+| Return Deciles                | [-36.0, -6.5, -3.6, -2.0, -0.7, 0.8, 2.1, 4.1, 5.9, 9.9, 34.6] | [-8.2, -3.8, -2.3, 0.5, 1.1, 2.5, 4.2, 7.2, 8.3, 16.3, 30.7] |
+| Trade Capital                 | 10,000,000                                                     | 10,000,000                                                    |
+| **Expected Net Return**       | **1.335%**                                                     | **4.601%**                                                    |
+| **Cumulative Net Profit**     | **27,365,419**                                                 | **16,105,142**                                                |
 
 ### 📅 Monthly Return
-![val_month_roi](https://github.com/user-attachments/assets/9e55f812-926d-4ed0-9f40-fa1e4f2fe23d)
-![test_month_roi](https://github.com/user-attachments/assets/4633754f-a7e1-4ac4-9b3c-a9ca90f71525)
+![val_month_roi (2)](https://github.com/user-attachments/assets/5c22536a-050f-45fc-9cf4-9f7b9a42050b)
+![test_month_roi (2)](https://github.com/user-attachments/assets/bf980f7e-c9bd-448e-9e3d-77777581e1aa)
 
 ### 📊 Daily Return
-![val_january_roi](https://github.com/user-attachments/assets/7bdfe6e9-ae9e-4f27-a00d-f1b592ebaa15)
-![test_january_roi](https://github.com/user-attachments/assets/55e121d0-1c05-4b39-b856-aee3b2f71c1a)
+![val_january_roi (2)](https://github.com/user-attachments/assets/28d74668-f108-418e-851e-6e85351ac4e3)
+![test_january_roi (2)](https://github.com/user-attachments/assets/fdb8b77f-a4b4-4146-a42b-cde6eb1312cd)
 
 ### 🏦 Return by Stock
-![val_stocks_roi](https://github.com/user-attachments/assets/e599cd1b-140f-4915-8908-980215978025)
+![val_stocks_roi (2)](https://github.com/user-attachments/assets/b716c1fe-7d3e-4cda-8e1d-5ac9a1e907a9)
 
 ### 🤔 Return Distribution by Purchase Decision
 |  |  |
 |--|--|
-| ![매수에따라n일후수익률평균값](https://github.com/user-attachments/assets/df8b2120-881e-400e-9e35-8e145c538f95) | ![매수에따라n일후수익률분포](https://github.com/user-attachments/assets/c6d90f5f-d62e-4e69-8521-abc3eff268f7) |
-| ![매수False일때n일후수익률분포](https://github.com/user-attachments/assets/fdce00d5-03ad-4217-ad8d-ab9912a87061) | ![매수True일때n일후수익률분포](https://github.com/user-attachments/assets/ebc42a34-3aac-45d8-b30d-da7d2451d4c7) |
+| ![매수에_따라_n일_후_수익률_평균값 (2)](https://github.com/user-attachments/assets/fda20527-be63-4c29-93bc-03fd709e0925) | ![매수에_따라_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/3fbe2ae7-9203-432b-8d46-322b192f094b) |
+| ![매수_False_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/c6025ef4-8298-4154-bc58-cc617f5148b1) | ![매수_True_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/ac17605d-270b-45d8-be12-4e17d48d2c2d) |
 
 ## 🔍 Case Study: Specific Stocks
-![val_한화오션](https://github.com/user-attachments/assets/01d51ab8-93cf-460c-b383-25c1e93d9768)
+![val_한화오션](https://github.com/user-attachments/assets/106851f3-8a99-4c2c-828f-2cf967bd148a)
 
 ---
 

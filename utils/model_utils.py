@@ -2,6 +2,7 @@ import random
 from collections import defaultdict
 
 import numpy as np
+import pandas as pd
 import scipy.stats
 import torch
 import torch.nn as nn
@@ -48,29 +49,23 @@ def get_stock_ranking_dataset(df, feature_columns, label_column, start_year, end
 
             x = features.iloc[i:i + sliding_window_size]  # (30, F)
             
-            y = meta_info[label_column]
+            y = meta_info[label_column] / 100
             industry_id = meta_info['industry_id']  # 업종
             date = meta_info['date']
 
             temp_grouped[date].append((x.values, y, industry_id, meta_info))
 
+    # 분위수 라벨 처리
     grouped_by_date = defaultdict(list)
     for date, group in temp_grouped.items():
-        # 날짜별 수익률 리스트
-        returns = [y for _, y, _, _ in group]
+        # 해당 날짜의 수익률 리스트
+        returns = [sample[1] for sample in group]
+        quantiles = pd.qcut(returns, q=20, labels=False)
 
-        if is_train:
-            # 수익률 클리핑 (-50%, +100%)
-            returns = np.clip(returns, -50, 100)
-    
-        # 최소 수익률 구하기
-        min_return = min(returns)
-    
         for i, (x, _, industry_id, meta_info) in enumerate(group):
-            # 수익률을 최소값만큼 shift해서 0부터 시작
-            label = int(returns[i] - min_return)
-            grouped_by_date[date].append((x, label, industry_id, meta_info))
-    
+            # label = int(quantiles[i])  # 분위수 기반 라벨
+            grouped_by_date[date].append((x, quantiles[i], industry_id, meta_info))
+
     return StockRankingTimeSeriesDataset(grouped_by_date)
 
 
