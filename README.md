@@ -111,7 +111,7 @@ Below are the individual distributions of input features used in model training.
 ### 📉 Distribution of Predicted Scores
 |  |  |
 |--|--|
-| ![val_top3_pred (2)](https://github.com/user-attachments/assets/494a7665-65c9-4286-a4b7-d59ade67a2c5) | ![test_top3_pred (2)](https://github.com/user-attachments/assets/c2725ab4-1a26-4dce-af85-f4d931e8527f) |
+| ![val_top3_pred](https://github.com/user-attachments/assets/f7ba6a34-25fb-4369-8e88-9d6339f64773) | ![test_top3_pred](https://github.com/user-attachments/assets/2c383056-2926-4f43-a4dc-aaa42fb43fcd) |
 
 ### 🔍 Raw Label Distribution
 |  |  |  |
@@ -165,24 +165,24 @@ If a new buy signal occurs during holding, reset holding period.
 | **Cumulative Net Profit**     | **27,365,419**                                                 | **16,105,142**                                                |
 
 ### 📅 Monthly Return
-![val_month_roi (2)](https://github.com/user-attachments/assets/5c22536a-050f-45fc-9cf4-9f7b9a42050b)
-![test_month_roi (2)](https://github.com/user-attachments/assets/bf980f7e-c9bd-448e-9e3d-77777581e1aa)
+![2024수익](https://github.com/user-attachments/assets/0dd992cb-b1fe-4296-ba36-2934ed48c20c)
+![2025수익](https://github.com/user-attachments/assets/e42a9a94-42c2-4af5-9ed8-6e7e26fc71d9)
 
 ### 📊 Daily Return
-![val_january_roi (2)](https://github.com/user-attachments/assets/28d74668-f108-418e-851e-6e85351ac4e3)
-![test_january_roi (2)](https://github.com/user-attachments/assets/fdb8b77f-a4b4-4146-a42b-cde6eb1312cd)
+![202401수익](https://github.com/user-attachments/assets/40682580-7101-4bb2-ae72-d10ded5c8f8a)
+![202501수익](https://github.com/user-attachments/assets/80012f30-8028-49cc-82b7-eb9e9a19a884)
 
 ### 🏦 Return by Stock
-![val_stocks_roi (2)](https://github.com/user-attachments/assets/b716c1fe-7d3e-4cda-8e1d-5ac9a1e907a9)
+![종목별수익](https://github.com/user-attachments/assets/a2bd444a-07a5-48a1-992b-3c4cf2488be6)
 
 ### 🤔 Return Distribution by Purchase Decision
 |  |  |
 |--|--|
-| ![매수에_따라_n일_후_수익률_평균값 (2)](https://github.com/user-attachments/assets/fda20527-be63-4c29-93bc-03fd709e0925) | ![매수에_따라_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/3fbe2ae7-9203-432b-8d46-322b192f094b) |
-| ![매수_False_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/c6025ef4-8298-4154-bc58-cc617f5148b1) | ![매수_True_일_때_n일_후_수익률_분포 (2)](https://github.com/user-attachments/assets/ac17605d-270b-45d8-be12-4e17d48d2c2d) |
+| ![수익률평균값](https://github.com/user-attachments/assets/63e7a7b5-9854-4d69-bae7-8e5feef9b0a2) | ![수익률분포](https://github.com/user-attachments/assets/152c4dba-d057-4daa-a55e-9e3cbe56a7a8) |
+| ![수익률분포0](https://github.com/user-attachments/assets/ccddad30-aac4-4e48-b7b9-b55921c9d4e8) | ![수익률분포1](https://github.com/user-attachments/assets/30d1b764-5ad3-4c36-88b1-fba2fd7d8ad9) |
 
 ## 🔍 Case Study: Specific Stocks
-![val_한화오션](https://github.com/user-attachments/assets/106851f3-8a99-4c2c-828f-2cf967bd148a)
+![한화오션](https://github.com/user-attachments/assets/0a467d36-5e75-447f-a279-07a291e0d0f9)
 
 ---
 
